@@ -1,0 +1,36 @@
+[Components]
+Main components needed:
+1. Basic Info
+2. All Games Stats
+3. Progression Stats
+4. Search
+5. Match History
+
+Re-usable components:
+- Main Data
+- Header
+- Match Data
+
+[Hierarchy]
+App
+    Basic Info
+        Profile Picture
+        Name
+    All Games Stats
+        Data
+        Best Champions
+    Progression Stats
+        Data x 3
+    Search
+        Region Selector
+        Input
+        Submit Button
+    Match History
+        Scroll Up
+        Page Selector
+        Match Data x 5
+            Champion Picture
+            Data
+        Scroll Down
+
+[Logic]
