@@ -33,4 +33,23 @@ App
             Data
         Scroll Down
 
-[Logic]
+[Fetch Logic]
+- Inside handleSubmit function in App - 
+Need for all fetches: API key
+
+First Fetch: Summoner by Summoner Name
+    - Set SummonerData as a state in App (everything should re-render if it is changed)
+    - SummonerData should contain name, puuid, summonerlevel
+
+Second Fetch: Matches by Puuid
+    - Can further filter by queue type 
+    - Set allMatchIds as a state in App
+
+Third (up to 90) Fetch: Match by matchId 
+    - For Loop (upper limit is allMatchIds.length)
+        - Pass allMatchIds[i] as a parameter into the fetch function, putting the match id into the url
+        - Make an allMatchData array to push each individual matchData into it
+        - Set allMatchData as a state in App
+
+allMatchData has all the data needed to display everything required. Pass it down as a prop to each main component,
+the necessary logic to manipulate the data will all be self-contained within the individual components
