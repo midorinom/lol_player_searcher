@@ -33,16 +33,16 @@ App
             Data
         Scroll Down
 
-[Fetch Logic]
+[Search/Fetch]
 - Inside handleSubmit function in App - 
 Need for all fetches: API key
 
 First Fetch: Summoner by Summoner Name
-    - Set SummonerData as a state in App (everything should re-render if it is changed)
-    - SummonerData should contain name, puuid, summonerlevel
+    - Set summonerData as a state in App (everything should re-render if it is changed)
+    - summonerData should contain name, puuid, summonerlevel
 
 Second Fetch: Matches by Puuid
-    - Can further filter by queue type 
+    - Set queue type as 400, 420, 430, 440 (only 5v5 Summoner's Rift games)
     - Set allMatchIds as a state in App
 
 Third (up to 90) Fetch: Match by matchId 
@@ -52,4 +52,132 @@ Third (up to 90) Fetch: Match by matchId
         - Set allMatchData as a state in App
 
 allMatchData has all the data needed to display everything required. Pass it down as a prop to each main component,
-the necessary logic to manipulate the data will all be self-contained within the individual components
+the necessary logic to manipulate the data will all be self-contained within each individual component
+
+[Initial Page]
+- Make an initial page with nothing except the search field and some instructions
+- Set up routes and route to the main page when the submit button is clicked and an input is made
+- If no input is made, prompt the user with an alert
+
+[Region Selector]
+- Set Region as a state in App
+- Make the Region selector (HTML: label, select, option)
+- Make a useRef and attach it to the select element. Make a switch statement in the fetch statements, checking for
+the ref.current.value and then putting the correct corresponding platform routing value into the URL
+
+[Basic Info]
+- Straightforward, just pluck the data from SummonerData and display it
+
+[All Games Stats]
+- Make a state named allMatchStats
+- Iterate through allMatchData with for loop to get the total of each individual stat, then put it into a key-value pair
+named Total. At the end of the loop, set total to allMatchStats.
+- Display all the keys of allMatchStats in the Data component
+
+[Progression Stats]
+- Make 3 states named progressionStatsNewest, progressionStatsMiddle, progressionStatesOldest
+- Modify the for loop described in the previous section. Make 3 key-value pairs called Newest, Middle, Oldest. 
+- If i < 0 && i < Math.floor(allMatchStats.length / 3), push the data of the i-th elmement into Newest. Add the same logic
+for Middle and Oldest.
+- Display the keys of Newest, Middle and Oldest in the respective components in Progression Stats.
+
+[Match History]
+- In the Match History component, make a currentPage state with initial value of 1.
+- Make an empty array and a for loop (i < Math.ceil(allMatchStats.length / 5)) to push "filler" into the array
+- use .map on the array to create the option elements for the page number selectors
+- Make onchange event on the page number selector select element, set the select value to currentPage
+
+- In the Match History component, make an empty array.
+- Do a for loop with let i = (currentPage * 5) - 5, and i < currentPage * 5
+- Take the data of allMatchData[i] and put it into a key-value pair. Push the key-value pair into the empty array.
+- After the loop, map through the array to render the 5 Match Data components, putting the data in
+
+[Filter by Game Mode]
+- In the Search component, add checkbox inputs for each game mode
+- Inside the Match Fetches, add the logic to check for which checkbox inputs have been selected
+- Inside the url, concatenate the queue id section to + the respective queue id for the selected checkbox inputs
+
+[Early Game (15 min) Stats]
+- Make another fetch, this time Fetch Match Timeline by Match Id. Similar logic as fetching Match by MatchId
+- Make an allMatchTimeline array to push each individual match timeline data into it, then set the array to a state
+- For the data, iterate through the participant info to find a puuid match with summonerData.puuid, then store the
+partipant number as a variable. 
+- Look at the timeline data array index [14] which is roughly the 15-min mark. Use the participant number to get the
+gold and cs values then do match to aggregate the gold/15min and cs/15min data. Append this logic to the existing logic
+in the data component.
+
+========= NEED TO RETHINK THIS ===========
+[Filter by Champions] 
+- In App, make a filterByChampionsClicked state with false as the initial value
+- Make a Filter by Champions button with an onClick event that sets filterByChampionsClicked to true, which will set
+the class of all the other components to make opacity = 0.4 (and also remove all eventlisteners)
+- Make a component that only appears if filterByChampionsClicked is true
+- Inside the component, first make a loop to iterate through allMatchData. Make an array called allChampions and push
+in the champion played of each game into it. Do not push duplicate champion names. At the end of the loop, the array
+will contain all unique champions played by the player.
+- Map through the array to create a ChampionSelector component with an image, text and onClick event
+- Make the ChampionSelector show the corresponding champion image and text by using the data provided
+========= NEED TO RETHINK THIS ===========
+
+[10-Player Stats]
+- Make an onClick event for each Match Data component that toggles a state of matchDataInfo between showAllPlayers
+and showIndividualPlayer
+- Render either the individual player or all 10 players stats depending on the matchDataInfo state
+- In the logic for Match History, include data from the other 9 players that are important and put them in
+- Include items and item images
+- Make each individual player have an onClick event that will invoke the handleSubmit function, with the player clicked
+being passed into the parameters. This should rerender the app and search the player that was clicked
+
+[Badges]
+- In the component that shows all 10 players, make an array for each specific stat that a badge will exist for
+- Iterate through the 10 players' data and populate the arrays of each stat with all 10 players's data for that stat
+- Compare if Math.max of that value === the player's stat, if it is, set the player's badge state of that stat to true
+- If the player's badge state of a stat is true, have an image be rendered that shows the badge and a hover event
+that shows a description of the badge when hovered over
+
+[Highlights Section]
+- Iterate through allMatchData to compare the total stats of each champion, to determine best champion for each stat
+- Add a check at the start of the logic, check if only 1 champion is selected (check the champion filter state). If so,
+show best game stats for that champion instead of best champions
+- Determine the best items
+- Have an image and text for each highlight stat
+
+[Fatal Mistakes]
+- Make an array with all the skillshots that count as fatal mistakes (threshq, sylase etc.)
+- Inside match timeline data, iterate through all the events and look for victim === the player, then look through the 
+skills that the player was hit by. Check if any of the skills match with an element in the fatal mistakes array. 
+- For each fatal mistake, increment the fatal mistakes variable inside the match data state. Also make a separate state 
+to push each individual fatal mistake into it
+- The total number will be rendered in the component, along with an onClick event that changes the matchDataInfo state 
+to showFatalMistakes
+- Have the component render to only show each individual fatal mistake (using the state mentioned earlier). Show the
+corresponding skill image and the skill name beside each fatal mistake. Have the number of times hit be shown as well.
+- Update the allMatchStats and Progression Stats with the total fatal mistakes numbers
+
+[Comparison Page]
+- Make a comparison page with a link to it at the top. Set up the routes
+- In the comparison page, make a back button.
+- Make a left box and right box that shows the totalMatchData and Progression Data.
+- The left box will be automatically populated with the same data from the main page. Add a filter by champions option that
+does the same thing as the main page but make a separate state for it such that it only changes the data rendered on the 
+comparison page and does not affect the main page.
+- Make 2 options for the right box, either this player or search a different player. Also include champion filters and make
+a different state to manage the champion filters of the right box.
+- Populate the right box with the totalMatchData and ProgressionData of whatever is searched
+
+[Graphs option for Progression Stats]
+- Need to research how to represent data on graphs
+- Make a button to toggle between the graphs and the original view
+
+[Recent History & Favourites]
+- Make a div that shows below the search bar when the input field is clicked (have it disappear when anywhere else is clicked)
+- Have a recent history tab and favourites tab
+- Make a recent history array and set it to a state. In the handleSubmit function, push the searched summoner name into the array 
+- Display the elements of the recent history array in the recent history tab, in a column and each having an onClick that will
+invoke handleSubmit and search the player that was clicked
+- Make a favourite button beside the player's name that when clicked, will toggle a setFavourite state between true/false
+- Make a useEffect that runs when setFavourite is changed, pushes the current summoner name into a favourites array that is set
+as a state. If setFavourite is false, duplicate the favourites array, splice the current summoner name from it and set the Newest
+spliced array as the favourites state.
+- Display the elements of the favourites array in the favourites tab, in a column and each having an onClick that will
+invoke handleSubmit and search the player that was clicked
