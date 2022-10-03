@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import SearchContext from "../context/searchContext";
 import LoadingSpinner from "./LoadingSpinner";
 import Search from "./Search";
+import BasicInfo from "./BasicInfo";
 
 const Main = () => {
   const searchContext = useContext(SearchContext);
@@ -9,7 +10,7 @@ const Main = () => {
   return (
     <div className="flexbox main">
       <div className="flexbox main-left">
-        <h1>Basic Info</h1>
+        <BasicInfo />
       </div>
       <div className="flexbox main-right">
         <Search />

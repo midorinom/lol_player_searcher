@@ -35,7 +35,7 @@ function App() {
       setSummonerData({
         name: data.name,
         puuid: data.puuid,
-        profileIconId: data.profileIconId,
+        profileIconId: `http://ddragon.leagueoflegends.com/cdn/12.18.1/img/profileicon/${data.profileIconId}.png`,
         summonerLevel: data.summonerLevel,
       });
 
