@@ -112,3 +112,15 @@ body {
 .summoner-name {
   font-size: 5vmin;
 }
+
+.allGamesStats {
+  height: 35%;
+  width: 100%;
+  border: 1px solid black;
+}
+
+.progressionStats {
+  height: 40%;
+  width: 100%;
+  border: 1px solid black;
+}
