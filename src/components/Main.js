@@ -1,19 +1,25 @@
 import React, { useContext } from "react";
 import SearchContext from "../context/searchContext";
 import LoadingSpinner from "./LoadingSpinner";
+import Search from "./Search";
 
 const Main = () => {
   const searchContext = useContext(SearchContext);
 
   return (
-    <>
-      <h1>Main</h1>
-      {searchContext.isLoading && (
-        <div className="centered">
-          <LoadingSpinner />
-        </div>
-      )}
-    </>
+    <div className="flexbox main">
+      <div className="flexbox main-left">
+        <h1>Basic Info</h1>
+      </div>
+      <div className="flexbox main-right">
+        <Search />
+        {searchContext.isLoading && (
+          <div className="centered">
+            <LoadingSpinner />
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 

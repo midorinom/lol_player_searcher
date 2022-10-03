@@ -6,9 +6,10 @@ import LoadingSpinner from "./components/LoadingSpinner";
 const Home = React.lazy(() => import("./components/Home"));
 const Main = React.lazy(() => import("./components/Main"));
 
-// 	Const PageOne = React.lazy(() => import(“./pages/PageOne”));
-
 function App() {
+  // =================================
+  // Declaring Variables and Functions
+  // =================================
   const apiKey = "RGAPI-d08bfd72-72f6-4d71-82e6-579609a94595";
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -18,6 +19,9 @@ function App() {
     setError(false);
   }
 
+  // ===============
+  // Fetch Functions
+  // ===============
   const fetchSummonerData = async (summonerName) => {
     setIsLoading(true);
     setError(null);
