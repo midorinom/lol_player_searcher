@@ -10,12 +10,12 @@ function App() {
   // =================================
   // Declaring Variables and Functions
   // =================================
-  const apiKey = "RGAPI-d08bfd72-72f6-4d71-82e6-579609a94595";
+  const apiKey = "RGAPI-6584f3b5-6a4e-4950-88ec-0de2342a5e85";
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [summonerData, setSummonerData] = useState("");
   const [allMatchIds, setAllMatchIds] = useState("");
-  const [allMatchData, setAllMatchData] = useState([]);
+  const [allIndividualGames, setAllIndividualGames] = useState([]);
 
   function handleModalOkay() {
     setError(false);
@@ -46,9 +46,9 @@ function App() {
     }
   }
 
-  // ===================
-  // Fetch Summoner Data
-  // ===================
+  // ========================================================
+  // Fetch Summoner Data (+ allMatchIds + allIndividualGames)
+  // ========================================================
   const fetchSummonerData = async (summonerName, platformRouting, queueId) => {
     setIsLoading(true);
     setError(null);
@@ -70,11 +70,17 @@ function App() {
 
       fetchAllMatchIds(data.puuid, regionalRouting, queueId);
 
+      const arrayAllIndividualGames = [];
+
       for (let i = 0; i < allMatchIds.length; i++) {
-        fetchAllIndividualGames(regionalRouting, allMatchIds[i]);
+        fetchAllIndividualGames(
+          regionalRouting,
+          allMatchIds[i],
+          arrayAllIndividualGames
+        );
       }
 
-      console.log(allMatchData);
+      setAllIndividualGames(arrayAllIndividualGames);
     } catch (err) {
       setError(err.message);
     }
@@ -96,6 +102,9 @@ function App() {
       );
       const data = await res.json();
 
+      console.log("is fetching match ids");
+      console.log(data);
+
       setAllMatchIds(data);
     } catch (err) {
       setError(err.message);
@@ -108,7 +117,7 @@ function App() {
   // Fetch All Individual Games
   // ==========================
 
-  const fetchAllIndividualGames = async (regionalRouting, matchId) => {
+  const fetchAllIndividualGames = async (regionalRouting, matchId, array) => {
     setIsLoading(true);
     setError(null);
 
@@ -119,7 +128,10 @@ function App() {
       );
       const data = await res.json();
 
-      setAllMatchData((prevState) => [...prevState, data]);
+      array.push(data);
+
+      console.log("is fetching individual games");
+      console.log(data);
     } catch (err) {
       setError(err.message);
     }
@@ -133,7 +145,12 @@ function App() {
   return (
     <>
       <SearchContext.Provider
-        value={{ summonerData, fetchSummonerData, isLoading }}
+        value={{
+          summonerData,
+          fetchSummonerData,
+          isLoading,
+          allIndividualGames,
+        }}
       >
         <Suspense
           fallback={

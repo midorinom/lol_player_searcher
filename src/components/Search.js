@@ -3,6 +3,9 @@ import SearchContext from "../context/searchContext";
 import { useNavigate } from "react-router-dom";
 
 const Search = () => {
+  // =================================
+  // Declaring Variables and Functions
+  // =================================
   const inputRef = useRef("");
   const regionSelectRef = useRef("");
   const gameModeSelectRef = useRef("");
