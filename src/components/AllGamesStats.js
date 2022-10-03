@@ -1,35 +1,41 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import SearchContext from "../context/searchContext";
 
-const AllGamesStats = () => {
+const AllGamesStats = (props) => {
   // =================================
   // Declaring Variables and Functions
   // =================================
   const searchContext = useContext(SearchContext);
 
-  const totalStats = {
-    wins: 0,
-    losses: 0,
-    kills: 0,
-    deaths: 0,
-    assists: 0,
-    damageShare: 0,
-    goldPerMin: 0,
-    deathsPer10Min: 0,
-    doubleKills: 0,
-    tripleKills: 0,
-    quadraKills: 0,
-    pentaKills: 0,
-  };
+  useEffect(() => {
+    const totalStats = {
+      wins: 0,
+      losses: 0,
+      kills: 0,
+      deaths: 0,
+      assists: 0,
+      damageShare: 0,
+      goldPerMin: 0,
+      deathsPer10Min: 0,
+      doubleKills: 0,
+      tripleKills: 0,
+      quadraKills: 0,
+      pentaKills: 0,
+    };
 
-  function getPlayerData(individualGameData) {
-    return individualGameData.info.participants.find(
+    for (const individualGameData of searchContext.allIndividualGames) {
+      totalUpPlayerData(individualGameData, totalStats);
+    }
+
+    if (props.totalStats === "") {
+      props.setTotalStats(totalStats);
+    }
+  }, []);
+
+  function totalUpPlayerData(individualGameData, totalStats) {
+    const playerData = individualGameData.info.participants.find(
       (player) => player.puuid === searchContext.summonerData.puuid
     );
-  }
-
-  for (const individualGameData of searchContext.allIndividualGames) {
-    const playerData = getPlayerData(individualGameData);
 
     playerData.win ? totalStats.wins++ : totalStats.losses++;
     totalStats.kills += playerData.kills;
@@ -50,19 +56,23 @@ const AllGamesStats = () => {
         Total Stats (Recent {searchContext.allIndividualGames.length} Games):
       </h3>
       <p>
-        {totalStats.wins} Wins {totalStats.losses} Losses (
+        {props.totalStats.wins} Wins {props.totalStats.losses} Losses (
         {Math.round(
-          (totalStats.wins / (totalStats.wins + totalStats.losses)) * 100
+          (props.totalStats.wins /
+            (props.totalStats.wins + props.totalStats.losses)) *
+            100
         ) / 100}
         %)
       </p>
       <p>
-        K/D/A: {totalStats.kills} / {totalStats.deaths} /{totalStats.assists}
+        K/D/A: {props.totalStats.kills} / {props.totalStats.deaths} /
+        {props.totalStats.assists}
       </p>
       <p>
-        Multikills: {totalStats.doubleKills} doublekills,{" "}
-        {totalStats.tripleKills} triplekills, {totalStats.quadraKills}{" "}
-        quadrakills, {totalStats.pentaKills} pentakills
+        Multikills: {props.totalStats.doubleKills} doublekills,{" "}
+        {props.totalStats.tripleKills} triplekills,{" "}
+        {props.totalStats.quadraKills} quadrakills,{" "}
+        {props.totalStats.pentaKills} pentakills
       </p>
     </div>
   );

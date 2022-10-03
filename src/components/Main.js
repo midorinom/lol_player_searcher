@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import SearchContext from "../context/searchContext";
 import LoadingSpinner from "./LoadingSpinner";
 import Search from "./Search";
@@ -8,12 +8,13 @@ import ProgressionStats from "./ProgressionStats";
 
 const Main = () => {
   const searchContext = useContext(SearchContext);
+  const [totalStats, setTotalStats] = useState("");
 
   return (
     <div className="flexbox main">
       <div className="flexbox main-left">
         <BasicInfo />
-        <AllGamesStats />
+        <AllGamesStats totalStats={totalStats} setTotalStats={setTotalStats} />
         <ProgressionStats />
       </div>
       <div className="flexbox main-right">

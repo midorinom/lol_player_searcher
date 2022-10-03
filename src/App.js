@@ -14,7 +14,6 @@ function App() {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [summonerData, setSummonerData] = useState("");
-  const [allMatchIds, setAllMatchIds] = useState("");
   const [allIndividualGames, setAllIndividualGames] = useState([]);
 
   function handleModalOkay() {
@@ -68,7 +67,11 @@ function App() {
 
       const regionalRouting = getRegionalRouting(platformRouting);
 
-      fetchAllMatchIds(data.puuid, regionalRouting, queueId);
+      const allMatchIds = fetchAllMatchIds(
+        data.puuid,
+        regionalRouting,
+        queueId
+      );
 
       const arrayAllIndividualGames = [];
 
@@ -101,11 +104,8 @@ function App() {
         `https://${regionalRouting}.api.riotgames.com/lol/match/v5/matches/by-puuid/${summonerPuuid}/ids?api_key=${apiKey}&queue=${queueId}&start=0&count=10`
       );
       const data = await res.json();
-
-      console.log("is fetching match ids");
-      console.log(data);
-
-      setAllMatchIds(data);
+      setIsLoading(false);
+      return data;
     } catch (err) {
       setError(err.message);
     }
@@ -129,9 +129,6 @@ function App() {
       const data = await res.json();
 
       array.push(data);
-
-      console.log("is fetching individual games");
-      console.log(data);
     } catch (err) {
       setError(err.message);
     }
