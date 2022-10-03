@@ -1,7 +1,7 @@
 import React from "react";
 import Search from "./Search";
 
-const Home = (props) => {
+const Home = () => {
   return (
     <>
       <h1>Input a Summoner Name:</h1>
