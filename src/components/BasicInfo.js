@@ -10,6 +10,7 @@ const BasicInfo = () => {
         <div className=" flexbox profile-picture-and-summoner-level">
           <img
             src={searchContext.summonerData.profileIconId}
+            alt="Profile Icon"
             className="profile-picture"
           />
           <div className="summoner-level">

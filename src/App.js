@@ -22,13 +22,13 @@ function App() {
   // ===============
   // Fetch Functions
   // ===============
-  const fetchSummonerData = async (summonerName) => {
+  const fetchSummonerData = async (summonerName, region) => {
     setIsLoading(true);
     setError(null);
 
     try {
       const res = await fetch(
-        `https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${apiKey}`
+        `https://${region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${apiKey}`
       );
       const data = await res.json();
 
@@ -47,6 +47,9 @@ function App() {
     setIsLoading(false);
   };
 
+  // ======
+  // Return
+  // ======
   return (
     <>
       <SearchContext.Provider
