@@ -18,7 +18,10 @@ const Search = () => {
     const summonerName = inputRef.current.value;
     const platformRouting = regionSelectRef.current.value;
     const queueId = gameModeSelectRef.current.value;
-    searchContext.fetchSummonerData(summonerName, platformRouting, queueId);
+
+    searchContext.setPlatformRouting(platformRouting);
+    searchContext.setQueueId(queueId);
+    searchContext.fetchSummonerData(summonerName, platformRouting);
 
     navigate("/main");
   }

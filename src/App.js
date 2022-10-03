@@ -1,4 +1,4 @@
-import React, { useState, Suspense } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import SearchContext from "./context/searchContext";
 import ErrorModal from "./components/ErrorModal";
@@ -13,7 +13,10 @@ function App() {
   const apiKey = "RGAPI-6584f3b5-6a4e-4950-88ec-0de2342a5e85";
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [platformRouting, setPlatformRouting] = useState("");
+  const [queueId, setQueueId] = useState("");
   const [summonerData, setSummonerData] = useState("");
+  const [allMatchIds, setAllMatchIds] = useState("");
   const [allIndividualGames, setAllIndividualGames] = useState([]);
 
   function handleModalOkay() {
@@ -45,10 +48,10 @@ function App() {
     }
   }
 
-  // ========================================================
-  // Fetch Summoner Data (+ allMatchIds + allIndividualGames)
-  // ========================================================
-  const fetchSummonerData = async (summonerName, platformRouting, queueId) => {
+  // ===================
+  // Fetch Summoner Data
+  // ===================
+  const fetchSummonerData = async (summonerName, platformRouting) => {
     setIsLoading(true);
     setError(null);
 
@@ -64,26 +67,6 @@ function App() {
         profileIconId: `http://ddragon.leagueoflegends.com/cdn/12.18.1/img/profileicon/${data.profileIconId}.png`,
         summonerLevel: data.summonerLevel,
       });
-
-      const regionalRouting = getRegionalRouting(platformRouting);
-
-      const allMatchIds = fetchAllMatchIds(
-        data.puuid,
-        regionalRouting,
-        queueId
-      );
-
-      const arrayAllIndividualGames = [];
-
-      for (let i = 0; i < allMatchIds.length; i++) {
-        fetchAllIndividualGames(
-          regionalRouting,
-          allMatchIds[i],
-          arrayAllIndividualGames
-        );
-      }
-
-      setAllIndividualGames(arrayAllIndividualGames);
     } catch (err) {
       setError(err.message);
     }
@@ -104,8 +87,8 @@ function App() {
         `https://${regionalRouting}.api.riotgames.com/lol/match/v5/matches/by-puuid/${summonerPuuid}/ids?api_key=${apiKey}&queue=${queueId}&start=0&count=10`
       );
       const data = await res.json();
-      setIsLoading(false);
-      return data;
+
+      setAllMatchIds(data);
     } catch (err) {
       setError(err.message);
     }
@@ -116,7 +99,6 @@ function App() {
   // ==========================
   // Fetch All Individual Games
   // ==========================
-
   const fetchAllIndividualGames = async (regionalRouting, matchId, array) => {
     setIsLoading(true);
     setError(null);
@@ -136,6 +118,33 @@ function App() {
     setIsLoading(false);
   };
 
+  // =========
+  // useEffect
+  // =========
+
+  useEffect(() => {
+    if (summonerData !== "") {
+      const regionalRouting = getRegionalRouting(platformRouting);
+      fetchAllMatchIds(summonerData.puuid, regionalRouting, queueId);
+    }
+  }, [summonerData]);
+
+  useEffect(() => {
+    if (allMatchIds !== "") {
+      const arrayAllIndividualGames = [];
+      const regionalRouting = getRegionalRouting(platformRouting);
+
+      for (let i = 0; i < allMatchIds.length; i++) {
+        fetchAllIndividualGames(
+          regionalRouting,
+          allMatchIds[i],
+          arrayAllIndividualGames
+        );
+      }
+      setAllIndividualGames(arrayAllIndividualGames);
+    }
+  }, [allMatchIds]);
+
   // ======
   // Return
   // ======
@@ -147,6 +156,8 @@ function App() {
           fetchSummonerData,
           isLoading,
           allIndividualGames,
+          setPlatformRouting,
+          setQueueId,
         }}
       >
         <Suspense

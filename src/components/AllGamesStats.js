@@ -8,34 +8,41 @@ const AllGamesStats = (props) => {
   const searchContext = useContext(SearchContext);
 
   useEffect(() => {
-    const totalStats = {
-      wins: 0,
-      losses: 0,
-      kills: 0,
-      deaths: 0,
-      assists: 0,
-      damageShare: 0,
-      goldPerMin: 0,
-      deathsPer10Min: 0,
-      doubleKills: 0,
-      tripleKills: 0,
-      quadraKills: 0,
-      pentaKills: 0,
-    };
+    if (props.allIndividualGames !== "") {
+      const totalStats = {
+        wins: 0,
+        losses: 0,
+        kills: 0,
+        deaths: 0,
+        assists: 0,
+        damageShare: 0,
+        goldPerMin: 0,
+        deathsPer10Min: 0,
+        doubleKills: 0,
+        tripleKills: 0,
+        quadraKills: 0,
+        pentaKills: 0,
+      };
 
-    for (const individualGameData of searchContext.allIndividualGames) {
-      totalUpPlayerData(individualGameData, totalStats);
-    }
+      console.log("allIndividualGames");
+      console.log(searchContext.allIndividualGames);
 
-    if (props.totalStats === "") {
-      props.setTotalStats(totalStats);
+      for (const individualGameData of searchContext.allIndividualGames) {
+        totalUpPlayerData(individualGameData, totalStats);
+      }
+
+      console.log("totalStats");
+      console.log(totalStats);
     }
-  }, []);
+  }, [props.allIndividualGames]);
 
   function totalUpPlayerData(individualGameData, totalStats) {
     const playerData = individualGameData.info.participants.find(
       (player) => player.puuid === searchContext.summonerData.puuid
     );
+
+    console.log("playerData");
+    console.log(playerData);
 
     playerData.win ? totalStats.wins++ : totalStats.losses++;
     totalStats.kills += playerData.kills;
