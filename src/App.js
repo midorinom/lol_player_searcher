@@ -15,6 +15,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [summonerData, setSummonerData] = useState("");
   const [allMatchIds, setAllMatchIds] = useState("");
+  const [allMatchData, setAllMatchData] = useState([]);
 
   function handleModalOkay() {
     setError(false);
@@ -45,33 +46,9 @@ function App() {
     }
   }
 
-  // ===============
-  // Fetch Functions
-  // ===============
-  const fetchAllMatchIds = async (summonerPuuid, platformRouting, queueId) => {
-    setIsLoading(true);
-    setError(null);
-
-    // ============================================
-    // Change the count to 100 when the app is done
-    // ============================================
-    try {
-      const res = await fetch(
-        `https://${getRegionalRouting(
-          platformRouting
-        )}.api.riotgames.com/lol/match/v5/matches/by-puuid/${summonerPuuid}/ids?api_key=${apiKey}&queue=${queueId}&start=0&count=10`
-      );
-      const data = await res.json();
-
-      setAllMatchIds(data);
-      console.log(allMatchIds);
-    } catch (err) {
-      setError(err.message);
-    }
-
-    setIsLoading(false);
-  };
-
+  // ===================
+  // Fetch Summoner Data
+  // ===================
   const fetchSummonerData = async (summonerName, platformRouting, queueId) => {
     setIsLoading(true);
     setError(null);
@@ -89,7 +66,60 @@ function App() {
         summonerLevel: data.summonerLevel,
       });
 
-      fetchAllMatchIds(data.puuid, platformRouting, queueId);
+      const regionalRouting = getRegionalRouting(platformRouting);
+
+      fetchAllMatchIds(data.puuid, regionalRouting, queueId);
+
+      for (let i = 0; i < allMatchIds.length; i++) {
+        fetchAllIndividualGames(regionalRouting, allMatchIds[i]);
+      }
+
+      console.log(allMatchData);
+    } catch (err) {
+      setError(err.message);
+    }
+
+    setIsLoading(false);
+  };
+
+  // ===================
+  // Fetch All Match Ids
+  // ===================
+  const fetchAllMatchIds = async (summonerPuuid, regionalRouting, queueId) => {
+    setIsLoading(true);
+    setError(null);
+
+    // Change the count to 100 when the app is done
+    try {
+      const res = await fetch(
+        `https://${regionalRouting}.api.riotgames.com/lol/match/v5/matches/by-puuid/${summonerPuuid}/ids?api_key=${apiKey}&queue=${queueId}&start=0&count=10`
+      );
+      const data = await res.json();
+
+      setAllMatchIds(data);
+    } catch (err) {
+      setError(err.message);
+    }
+
+    setIsLoading(false);
+  };
+
+  // ==========================
+  // Fetch All Individual Games
+  // ==========================
+
+  const fetchAllIndividualGames = async (regionalRouting, matchId) => {
+    setIsLoading(true);
+    setError(null);
+
+    // Change the count to 100 when the app is done
+    try {
+      const res = await fetch(
+        `https://${regionalRouting}.api.riotgames.com/lol/match/v5/matches/${matchId}/?api_key=${apiKey}`
+      );
+      const data = await res.json();
+
+      setAllMatchData((prevState) => [...prevState, data]);
     } catch (err) {
       setError(err.message);
     }
