@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 const Search = () => {
   const inputRef = useRef("");
-  const selectRef = useRef("");
+  const regionSelectRef = useRef("");
+  const gameModeSelectRef = useRef("");
   const searchContext = useContext(SearchContext);
   const navigate = useNavigate();
 
@@ -12,8 +13,9 @@ const Search = () => {
     e.preventDefault();
 
     const summonerName = inputRef.current.value;
-    const region = selectRef.current.value;
-    searchContext.fetchSummonerData(summonerName, region);
+    const platformRouting = regionSelectRef.current.value;
+    const queueId = gameModeSelectRef.current.value;
+    searchContext.fetchSummonerData(summonerName, platformRouting, queueId);
 
     navigate("/main");
   }
@@ -21,7 +23,7 @@ const Search = () => {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <select name="region-selector" ref={selectRef}>
+        <select name="region-selector" ref={regionSelectRef}>
           <option value="euw1">Europe West</option>
           <option value="eun1">Europe Nordic + East</option>
           <option value="na1">North America</option>
@@ -31,6 +33,12 @@ const Search = () => {
           <option value="la1">Latin America North</option>
           <option value="la2">Latin America South</option>
           <option value="oc1">Oceania</option>
+        </select>
+        <select name="game-mode-selector" ref={gameModeSelectRef}>
+          <option value="420">Ranked Solo/Duo</option>
+          <option value="440">Ranked Flex</option>
+          <option value="400">Normal Draft</option>
+          <option value="430">Normal Blind</option>
         </select>
         <input ref={inputRef} />
         <button type="submit">Search</button>

@@ -14,21 +14,71 @@ function App() {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [summonerData, setSummonerData] = useState("");
+  const [allMatchIds, setAllMatchIds] = useState("");
 
   function handleModalOkay() {
     setError(false);
   }
 
+  function getRegionalRouting(platformRouting) {
+    switch (platformRouting) {
+      case "euw1":
+        return "europe";
+      case "eun1":
+        return "europe";
+      case "na1":
+        return "americas";
+      case "kr":
+        return "asia";
+      case "jp1":
+        return "asia";
+      case "br1":
+        return "americas";
+      case "la1":
+        return "americas";
+      case "la2":
+        return "americas";
+      case "oc1":
+        return "sea";
+      default:
+        return;
+    }
+  }
+
   // ===============
   // Fetch Functions
   // ===============
-  const fetchSummonerData = async (summonerName, region) => {
+  const fetchAllMatchIds = async (summonerPuuid, platformRouting, queueId) => {
+    setIsLoading(true);
+    setError(null);
+
+    // ============================================
+    // Change the count to 100 when the app is done
+    // ============================================
+    try {
+      const res = await fetch(
+        `https://${getRegionalRouting(
+          platformRouting
+        )}.api.riotgames.com/lol/match/v5/matches/by-puuid/${summonerPuuid}/ids?api_key=${apiKey}&queue=${queueId}&start=0&count=10`
+      );
+      const data = await res.json();
+
+      setAllMatchIds(data);
+      console.log(allMatchIds);
+    } catch (err) {
+      setError(err.message);
+    }
+
+    setIsLoading(false);
+  };
+
+  const fetchSummonerData = async (summonerName, platformRouting, queueId) => {
     setIsLoading(true);
     setError(null);
 
     try {
       const res = await fetch(
-        `https://${region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${apiKey}`
+        `https://${platformRouting}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${apiKey}`
       );
       const data = await res.json();
 
@@ -39,7 +89,7 @@ function App() {
         summonerLevel: data.summonerLevel,
       });
 
-      console.log(summonerData);
+      fetchAllMatchIds(data.puuid, platformRouting, queueId);
     } catch (err) {
       setError(err.message);
     }
