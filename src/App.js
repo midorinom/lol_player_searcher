@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Suspense } from "react";
+import React, { useState, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import SearchContext from "./context/searchContext";
 import ErrorModal from "./components/ErrorModal";
@@ -13,11 +13,21 @@ function App() {
   const apiKey = "RGAPI-6584f3b5-6a4e-4950-88ec-0de2342a5e85";
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [platformRouting, setPlatformRouting] = useState("");
-  const [queueId, setQueueId] = useState("");
   const [summonerData, setSummonerData] = useState("");
-  const [allMatchIds, setAllMatchIds] = useState("");
+  const [allMatchIds, setAllMatchIds] = useState([
+    "NA1_4448483308",
+    "NA1_4448437019",
+    "NA1_4447662355",
+    "NA1_4447616776",
+    "NA1_4447631324",
+    "NA1_4446707026",
+    "NA1_4446742801",
+    "NA1_4446048742",
+    "NA1_4446090192",
+    "NA1_4446005457",
+  ]);
   const [allIndividualGames, setAllIndividualGames] = useState([]);
+  const [totalStats, setTotalStats] = useState("");
 
   function handleModalOkay() {
     setError(false);
@@ -48,10 +58,10 @@ function App() {
     }
   }
 
-  // ===================
-  // Fetch Summoner Data
-  // ===================
-  const fetchSummonerData = async (summonerName, platformRouting) => {
+  // =========================================
+  // Fetch Summoner Data (and everything else)
+  // =========================================
+  const fetchSummonerData = async (summonerName, platformRouting, queueId) => {
     setIsLoading(true);
     setError(null);
 
@@ -61,12 +71,71 @@ function App() {
       );
       const data = await res.json();
 
+      // Summoner Data
       setSummonerData({
         name: data.name,
         puuid: data.puuid,
         profileIconId: `http://ddragon.leagueoflegends.com/cdn/12.18.1/img/profileicon/${data.profileIconId}.png`,
         summonerLevel: data.summonerLevel,
       });
+
+      // Match Ids
+      const regionalRouting = getRegionalRouting(platformRouting);
+      fetchAllMatchIds(data.puuid, regionalRouting, queueId);
+
+      // All Individual Games
+      const arrayAllIndividualGames = [];
+
+      for (let i = 0; i < allMatchIds.length; i++) {
+        fetchAllIndividualGames(
+          regionalRouting,
+          allMatchIds[i],
+          arrayAllIndividualGames
+        );
+      }
+      setAllIndividualGames(arrayAllIndividualGames);
+
+      // Totalling Stats
+      {
+        const tempTotalStats = {
+          wins: 0,
+          losses: 0,
+          kills: 0,
+          deaths: 0,
+          assists: 0,
+          damageShare: 0,
+          goldPerMin: 0,
+          deathsPer10Min: 0,
+          doubleKills: 0,
+          tripleKills: 0,
+          quadraKills: 0,
+          pentaKills: 0,
+        };
+
+        function totalUpPlayerData(individualGameData) {
+          const playerData = individualGameData.info.participants.find(
+            (player) => player.puuid === summonerData.puuid
+          );
+
+          playerData.win ? tempTotalStats.wins++ : tempTotalStats.losses++;
+          tempTotalStats.kills += playerData.kills;
+          tempTotalStats.deaths += playerData.kills;
+          tempTotalStats.assists += playerData.assists;
+          tempTotalStats.doubleKills += playerData.doubleKills;
+          tempTotalStats.tripleKills += playerData.tripleKills;
+          tempTotalStats.quadraKills += playerData.quadraKills;
+          tempTotalStats.pentaKills += playerData.pentaKills;
+        }
+
+        console.log("allIndividualGames");
+        console.log(allIndividualGames);
+
+        for (const individualGameData of allIndividualGames) {
+          totalUpPlayerData(individualGameData);
+        }
+
+        setTotalStats(tempTotalStats);
+      }
     } catch (err) {
       setError(err.message);
     }
@@ -118,33 +187,6 @@ function App() {
     setIsLoading(false);
   };
 
-  // =========
-  // useEffect
-  // =========
-
-  useEffect(() => {
-    if (summonerData !== "") {
-      const regionalRouting = getRegionalRouting(platformRouting);
-      fetchAllMatchIds(summonerData.puuid, regionalRouting, queueId);
-    }
-  }, [summonerData]);
-
-  useEffect(() => {
-    if (allMatchIds !== "") {
-      const arrayAllIndividualGames = [];
-      const regionalRouting = getRegionalRouting(platformRouting);
-
-      for (let i = 0; i < allMatchIds.length; i++) {
-        fetchAllIndividualGames(
-          regionalRouting,
-          allMatchIds[i],
-          arrayAllIndividualGames
-        );
-      }
-      setAllIndividualGames(arrayAllIndividualGames);
-    }
-  }, [allMatchIds]);
-
   // ======
   // Return
   // ======
@@ -156,8 +198,7 @@ function App() {
           fetchSummonerData,
           isLoading,
           allIndividualGames,
-          setPlatformRouting,
-          setQueueId,
+          totalStats,
         }}
       >
         <Suspense
