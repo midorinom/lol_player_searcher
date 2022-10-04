@@ -2,8 +2,8 @@ import React from "react";
 
 const GameData = (props) => {
   return (
-    <div className="allGamesStats">
-      <h3>Total Stats (Recent {props.numberOfGames} Games):</h3>
+    <div>
+      <h3>({props.numberOfGames} Games):</h3>
       <p>
         {props.stats.wins} Wins {props.stats.losses} Losses (
         {Math.round(

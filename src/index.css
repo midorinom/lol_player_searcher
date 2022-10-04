@@ -114,13 +114,13 @@ body {
 }
 
 .allGamesStats {
-  height: 35%;
+  height: 40%;
   width: 100%;
   border: 1px solid black;
 }
 
 .progressionStats {
-  height: 50%;
+  height: 45%;
   width: 100%;
   border: 1px solid black;
 }

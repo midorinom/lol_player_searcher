@@ -9,10 +9,13 @@ const AllGamesStats = () => {
   // Return
   // ======
   return (
-    <GameData
-      numberOfGames={searchContext.allIndividualGames.length}
-      stats={searchContext.totalStats}
-    />
+    <div className="allGamesStats">
+      <h3>Total Stats</h3>
+      <GameData
+        numberOfGames={searchContext.allIndividualGames.length}
+        stats={searchContext.totalStats}
+      />
+    </div>
   );
 };
 

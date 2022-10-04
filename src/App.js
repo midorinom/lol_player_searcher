@@ -143,84 +143,34 @@ function App() {
   // ===========================================
   // Fetch Individual Games and Calculate Stats
   // ==========================================
+  // useEffect happens after allMatchIds is set
   useEffect(() => {
-    if (allMatchIds !== "") {
-      const arrayAllIndividualGames = [];
+    if (allMatchIds !== []) {
+      fetchMatchesAndCalculateStats();
+    }
+  }, [allMatchIds]);
 
-      for (let i = 0; i < allMatchIds.length; i++) {
-        fetchIndividualGame(
-          regionalRouting,
-          allMatchIds[i],
-          arrayAllIndividualGames
-        );
-      }
+  function fetchMatchesAndCalculateStats() {
+    const arrayAllIndividualGames = [];
 
-      setAllIndividualGames(arrayAllIndividualGames);
-
-      // Totalling the Stats
-      function totalUpPlayerData(individualGameData, totalStats) {
-        const playerData = individualGameData.info.participants.find(
-          (player) => player.puuid === summonerData.puuid
-        );
-
-        // Easy Stats
-        playerData.win ? totalStats.wins++ : totalStats.losses++;
-
-        totalStats.kills += playerData.kills;
-        totalStats.deaths += playerData.deaths;
-        totalStats.assists += playerData.assists;
-
-        totalStats.goldPerMin +=
-          playerData.goldEarned / (individualGameData.info.gameDuration / 60);
-        totalStats.deathsPer10Min +=
-          playerData.deaths / (individualGameData.info.gameDuration / 600);
-
-        totalStats.doubleKills += playerData.doubleKills;
-        totalStats.tripleKills += playerData.tripleKills;
-        totalStats.quadraKills += playerData.quadraKills;
-        totalStats.pentaKills += playerData.pentaKills;
-
-        // Calculate Damage Share
-        let totalTeamDamage = 0;
-        for (const player of individualGameData.info.participants) {
-          if (player.teamId === playerData.teamId) {
-            totalTeamDamage += player.totalDamageDealtToChampions;
-          }
-        }
-        totalStats.damageShare +=
-          playerData.totalDamageDealtToChampions / totalTeamDamage;
-      }
-
-      {
-        const tempTotalStats = {
-          wins: 0,
-          losses: 0,
-          kills: 0,
-          deaths: 0,
-          assists: 0,
-          damageShare: 0,
-          goldPerMin: 0,
-          deathsPer10Min: 0,
-          doubleKills: 0,
-          tripleKills: 0,
-          quadraKills: 0,
-          pentaKills: 0,
-        };
-
-        for (const individualGameData of allIndividualGames) {
-          totalUpPlayerData(individualGameData, tempTotalStats);
-        }
-
-        setTotalStats(tempTotalStats);
-      }
-
-      // Progression Stats
-      const newestGames = allIndividualGames.slice(
-        0,
-        Math.floor(allIndividualGames.length / 3)
+    for (let i = 0; i < allMatchIds.length; i++) {
+      fetchIndividualGame(
+        regionalRouting,
+        allMatchIds[i],
+        arrayAllIndividualGames
       );
+    }
 
-      const totalNewestGames = {
+    console.log("arrayAllIndividualGames");
+    console.log(arrayAllIndividualGames);
+
+    setAllIndividualGames(arrayAllIndividualGames);
+
+    console.log("state allIndividualGames");
+    console.log(allIndividualGames);
+
+    {
+      const tempTotalStats = {
         wins: 0,
         losses: 0,
         kills: 0,
@@ -235,14 +185,73 @@ function App() {
         pentaKills: 0,
       };
 
-      for (const individualGameData of newestGames) {
-        totalUpPlayerData(individualGameData, totalNewestGames);
-        console.log(individualGameData);
+      for (const individualGameData of allIndividualGames) {
+        totalUpPlayerData(individualGameData, tempTotalStats);
       }
-
-      setProgressionStats(totalNewestGames);
+      setTotalStats(tempTotalStats);
     }
-  }, [allMatchIds]);
+
+    // Progression Stats
+    const newestGames = allIndividualGames.slice(
+      0,
+      Math.floor(allIndividualGames.length / 3)
+    );
+
+    const totalNewestGames = {
+      wins: 0,
+      losses: 0,
+      kills: 0,
+      deaths: 0,
+      assists: 0,
+      damageShare: 0,
+      goldPerMin: 0,
+      deathsPer10Min: 0,
+      doubleKills: 0,
+      tripleKills: 0,
+      quadraKills: 0,
+      pentaKills: 0,
+    };
+
+    for (const individualGameData of newestGames) {
+      totalUpPlayerData(individualGameData, totalNewestGames);
+    }
+
+    setProgressionStats(totalNewestGames);
+  }
+
+  // Function that totals stats
+  function totalUpPlayerData(individualGameData, totalStats) {
+    const playerData = individualGameData.info.participants.find(
+      (player) => player.puuid === summonerData.puuid
+    );
+
+    // Easy Stats
+    playerData.win ? totalStats.wins++ : totalStats.losses++;
+
+    totalStats.kills += playerData.kills;
+    totalStats.deaths += playerData.deaths;
+    totalStats.assists += playerData.assists;
+
+    totalStats.goldPerMin +=
+      playerData.goldEarned / (individualGameData.info.gameDuration / 60);
+    totalStats.deathsPer10Min +=
+      playerData.deaths / (individualGameData.info.gameDuration / 600);
+
+    totalStats.doubleKills += playerData.doubleKills;
+    totalStats.tripleKills += playerData.tripleKills;
+    totalStats.quadraKills += playerData.quadraKills;
+    totalStats.pentaKills += playerData.pentaKills;
+
+    // Calculate Damage Share
+    let totalTeamDamage = 0;
+    for (const player of individualGameData.info.participants) {
+      if (player.teamId === playerData.teamId) {
+        totalTeamDamage += player.totalDamageDealtToChampions;
+      }
+    }
+    totalStats.damageShare +=
+      playerData.totalDamageDealtToChampions / totalTeamDamage;
+  }
 
   // ======
   // Return
