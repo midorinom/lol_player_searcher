@@ -61,7 +61,7 @@ body {
 }
 
 .basic-info {
-  height: 25%;
+  height: 15%;
   width: 100%;
 }
 
@@ -81,7 +81,7 @@ body {
 
 .profile-picture-and-summoner-level {
   height: 70%;
-  width: 60%;
+  width: 40%;
   display: flex;
   position: relative;
   justify-content: center;
@@ -104,7 +104,7 @@ body {
   padding: 0.3em;
   bottom: 0%;
   z-index: 10;
-  font-size: 2.5vmin;
+  font-size: 1.5vmin;
   border: 1px solid black;
   border-radius: 50%;
 }
@@ -120,7 +120,7 @@ body {
 }
 
 .progressionStats {
-  height: 40%;
+  height: 50%;
   width: 100%;
   border: 1px solid black;
 }

@@ -1,4 +1,4 @@
-import React, { useState, Suspense } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import SearchContext from "./context/searchContext";
 import ErrorModal from "./components/ErrorModal";
@@ -14,20 +14,25 @@ function App() {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [summonerData, setSummonerData] = useState("");
-  const [allMatchIds, setAllMatchIds] = useState([
-    "NA1_4448483308",
-    "NA1_4448437019",
-    "NA1_4447662355",
-    "NA1_4447616776",
-    "NA1_4447631324",
-    "NA1_4446707026",
-    "NA1_4446742801",
-    "NA1_4446048742",
-    "NA1_4446090192",
-    "NA1_4446005457",
-  ]);
+  const [regionalRouting, setRegionalRouting] = useState("");
+  const [allMatchIds, setAllMatchIds] = useState(
+    []
+    //   [
+    //   "NA1_4448483308",
+    //   "NA1_4448437019",
+    //   "NA1_4447662355",
+    //   // "NA1_4447616776",
+    //   // "NA1_4447631324",
+    //   // "NA1_4446707026",
+    //   // "NA1_4446742801",
+    //   // "NA1_4446048742",
+    //   // "NA1_4446090192",
+    //   // "NA1_4446005457",
+    // ]
+  );
   const [allIndividualGames, setAllIndividualGames] = useState([]);
   const [totalStats, setTotalStats] = useState("");
+  const [progressionStats, setProgressionStats] = useState("");
 
   function handleModalOkay() {
     setError(false);
@@ -58,9 +63,53 @@ function App() {
     }
   }
 
-  // =========================================
-  // Fetch Summoner Data (and everything else)
-  // =========================================
+  // ===================
+  // Fetch All Match Ids
+  // ===================
+  const fetchAllMatchIds = async (summonerPuuid, regionalRouting, queueId) => {
+    setIsLoading(true);
+    setError(null);
+
+    // Change the count to 100 when the app is done
+    try {
+      const res = await fetch(
+        `https://${regionalRouting}.api.riotgames.com/lol/match/v5/matches/by-puuid/${summonerPuuid}/ids?api_key=${apiKey}&queue=${queueId}&start=0&count=3`
+      );
+      const data = await res.json();
+
+      setAllMatchIds(data);
+    } catch (err) {
+      setError(err.message);
+    }
+
+    setIsLoading(false);
+  };
+
+  // =====================
+  // Fetch Individual Game
+  // =====================
+  const fetchIndividualGame = async (regionalRouting, matchId, array) => {
+    setIsLoading(true);
+    setError(null);
+
+    // Change the count to 100 when the app is done
+    try {
+      const res = await fetch(
+        `https://${regionalRouting}.api.riotgames.com/lol/match/v5/matches/${matchId}/?api_key=${apiKey}`
+      );
+      const data = await res.json();
+
+      array.push(data);
+    } catch (err) {
+      setError(err.message);
+    }
+
+    setIsLoading(false);
+  };
+
+  // =================================
+  // Fetch Summoner Data and Match Ids
+  // =================================
   const fetchSummonerData = async (summonerName, platformRouting, queueId) => {
     setIsLoading(true);
     setError(null);
@@ -81,21 +130,67 @@ function App() {
 
       // Match Ids
       const regionalRouting = getRegionalRouting(platformRouting);
-      fetchAllMatchIds(data.puuid, regionalRouting, queueId);
+      setRegionalRouting(regionalRouting);
 
-      // All Individual Games
+      fetchAllMatchIds(data.puuid, regionalRouting, queueId);
+    } catch (err) {
+      setError(err.message);
+    }
+
+    setIsLoading(false);
+  };
+
+  // ===========================================
+  // Fetch Individual Games and Calculate Stats
+  // ==========================================
+  useEffect(() => {
+    if (allMatchIds !== "") {
       const arrayAllIndividualGames = [];
 
       for (let i = 0; i < allMatchIds.length; i++) {
-        fetchAllIndividualGames(
+        fetchIndividualGame(
           regionalRouting,
           allMatchIds[i],
           arrayAllIndividualGames
         );
       }
+
       setAllIndividualGames(arrayAllIndividualGames);
 
-      // Totalling Stats
+      // Totalling the Stats
+      function totalUpPlayerData(individualGameData, totalStats) {
+        const playerData = individualGameData.info.participants.find(
+          (player) => player.puuid === summonerData.puuid
+        );
+
+        // Easy Stats
+        playerData.win ? totalStats.wins++ : totalStats.losses++;
+
+        totalStats.kills += playerData.kills;
+        totalStats.deaths += playerData.deaths;
+        totalStats.assists += playerData.assists;
+
+        totalStats.goldPerMin +=
+          playerData.goldEarned / (individualGameData.info.gameDuration / 60);
+        totalStats.deathsPer10Min +=
+          playerData.deaths / (individualGameData.info.gameDuration / 600);
+
+        totalStats.doubleKills += playerData.doubleKills;
+        totalStats.tripleKills += playerData.tripleKills;
+        totalStats.quadraKills += playerData.quadraKills;
+        totalStats.pentaKills += playerData.pentaKills;
+
+        // Calculate Damage Share
+        let totalTeamDamage = 0;
+        for (const player of individualGameData.info.participants) {
+          if (player.teamId === playerData.teamId) {
+            totalTeamDamage += player.totalDamageDealtToChampions;
+          }
+        }
+        totalStats.damageShare +=
+          playerData.totalDamageDealtToChampions / totalTeamDamage;
+      }
+
       {
         const tempTotalStats = {
           wins: 0,
@@ -112,98 +207,42 @@ function App() {
           pentaKills: 0,
         };
 
-        function totalUpPlayerData(individualGameData) {
-          const playerData = individualGameData.info.participants.find(
-            (player) => player.puuid === summonerData.puuid
-          );
-
-          // Easy Stats
-          playerData.win ? tempTotalStats.wins++ : tempTotalStats.losses++;
-
-          tempTotalStats.kills += playerData.kills;
-          tempTotalStats.deaths += playerData.kills;
-          tempTotalStats.assists += playerData.assists;
-
-          tempTotalStats.goldPerMin +=
-            playerData.goldEarned / (individualGameData.info.gameDuration / 60);
-          tempTotalStats.deathsPer10Min +=
-            playerData.deaths / (individualGameData.info.gameDuration / 600);
-
-          tempTotalStats.doubleKills += playerData.doubleKills;
-          tempTotalStats.tripleKills += playerData.tripleKills;
-          tempTotalStats.quadraKills += playerData.quadraKills;
-          tempTotalStats.pentaKills += playerData.pentaKills;
-
-          // Calculate Damage Share
-          let totalTeamDamage = 0;
-          for (const player of individualGameData.info.participants) {
-            if (player.teamId === playerData.teamId) {
-              totalTeamDamage += player.totalDamageDealtToChampions;
-            }
-          }
-          tempTotalStats.damageShare +=
-            playerData.totalDamageDealtToChampions / totalTeamDamage;
-        }
-
-        console.log("allIndividualGames");
-        console.log(allIndividualGames);
-
         for (const individualGameData of allIndividualGames) {
-          totalUpPlayerData(individualGameData);
+          totalUpPlayerData(individualGameData, tempTotalStats);
         }
 
         setTotalStats(tempTotalStats);
       }
-    } catch (err) {
-      setError(err.message);
-    }
 
-    setIsLoading(false);
-  };
-
-  // ===================
-  // Fetch All Match Ids
-  // ===================
-  const fetchAllMatchIds = async (summonerPuuid, regionalRouting, queueId) => {
-    setIsLoading(true);
-    setError(null);
-
-    // Change the count to 100 when the app is done
-    try {
-      const res = await fetch(
-        `https://${regionalRouting}.api.riotgames.com/lol/match/v5/matches/by-puuid/${summonerPuuid}/ids?api_key=${apiKey}&queue=${queueId}&start=0&count=10`
+      // Progression Stats
+      const newestGames = allIndividualGames.slice(
+        0,
+        Math.floor(allIndividualGames.length / 3)
       );
-      const data = await res.json();
 
-      setAllMatchIds(data);
-    } catch (err) {
-      setError(err.message);
+      const totalNewestGames = {
+        wins: 0,
+        losses: 0,
+        kills: 0,
+        deaths: 0,
+        assists: 0,
+        damageShare: 0,
+        goldPerMin: 0,
+        deathsPer10Min: 0,
+        doubleKills: 0,
+        tripleKills: 0,
+        quadraKills: 0,
+        pentaKills: 0,
+      };
+
+      for (const individualGameData of newestGames) {
+        totalUpPlayerData(individualGameData, totalNewestGames);
+        console.log(individualGameData);
+      }
+
+      setProgressionStats(totalNewestGames);
     }
-
-    setIsLoading(false);
-  };
-
-  // ==========================
-  // Fetch All Individual Games
-  // ==========================
-  const fetchAllIndividualGames = async (regionalRouting, matchId, array) => {
-    setIsLoading(true);
-    setError(null);
-
-    // Change the count to 100 when the app is done
-    try {
-      const res = await fetch(
-        `https://${regionalRouting}.api.riotgames.com/lol/match/v5/matches/${matchId}/?api_key=${apiKey}`
-      );
-      const data = await res.json();
-
-      array.push(data);
-    } catch (err) {
-      setError(err.message);
-    }
-
-    setIsLoading(false);
-  };
+  }, [allMatchIds]);
 
   // ======
   // Return
@@ -217,6 +256,7 @@ function App() {
           isLoading,
           allIndividualGames,
           totalStats,
+          progressionStats,
         }}
       >
         <Suspense
