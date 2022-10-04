@@ -117,14 +117,32 @@ function App() {
             (player) => player.puuid === summonerData.puuid
           );
 
+          // Easy Stats
           playerData.win ? tempTotalStats.wins++ : tempTotalStats.losses++;
+
           tempTotalStats.kills += playerData.kills;
           tempTotalStats.deaths += playerData.kills;
           tempTotalStats.assists += playerData.assists;
+
+          tempTotalStats.goldPerMin +=
+            playerData.goldEarned / (individualGameData.info.gameDuration / 60);
+          tempTotalStats.deathsPer10Min +=
+            playerData.deaths / (individualGameData.info.gameDuration / 600);
+
           tempTotalStats.doubleKills += playerData.doubleKills;
           tempTotalStats.tripleKills += playerData.tripleKills;
           tempTotalStats.quadraKills += playerData.quadraKills;
           tempTotalStats.pentaKills += playerData.pentaKills;
+
+          // Calculate Damage Share
+          let totalTeamDamage = 0;
+          for (const player of individualGameData.info.participants) {
+            if (player.teamId === playerData.teamId) {
+              totalTeamDamage += player.totalDamageDealtToChampions;
+            }
+          }
+          tempTotalStats.damageShare +=
+            playerData.totalDamageDealtToChampions / totalTeamDamage;
         }
 
         console.log("allIndividualGames");

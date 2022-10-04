@@ -26,7 +26,7 @@ const AllGamesStats = () => {
         %)
       </p>
       <p>
-        K/D/A: {searchContext.totalStats.kills}/
+        K/D/A : {searchContext.totalStats.kills}/
         {searchContext.totalStats.deaths}/{searchContext.totalStats.assists} (
         {Math.round(
           ((searchContext.totalStats.kills + searchContext.totalStats.assists) /
@@ -36,7 +36,19 @@ const AllGamesStats = () => {
         )
       </p>
       <p>
-        Multikills: {searchContext.totalStats.doubleKills} doublekills,{" "}
+        Average Damage Share of Team:{" "}
+        {Math.round((searchContext.totalStats.damageShare / 10) * 10000) / 100}%
+      </p>
+      <p>
+        Average Gold per minute :{" "}
+        {Math.round((searchContext.totalStats.goldPerMin / 10) * 100) / 100}
+      </p>
+      <p>
+        Average Deaths per 10 minutes :{" "}
+        {Math.round((searchContext.totalStats.deathsPer10Min / 10) * 100) / 100}
+      </p>
+      <p>
+        Multikills : {searchContext.totalStats.doubleKills} doublekills,{" "}
         {searchContext.totalStats.tripleKills} triplekills,{" "}
         {searchContext.totalStats.quadraKills} quadrakills,{" "}
         {searchContext.totalStats.pentaKills} pentakills
