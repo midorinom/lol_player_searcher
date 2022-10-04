@@ -7,7 +7,7 @@ const ProgressionStats = () => {
 
   return (
     <div className="progressionStats">
-      <h3>Newest Games</h3>
+      <h3 className="statsHeader">Newest Games</h3>
       <GameData
         numberOfGames={Math.floor(searchContext.allIndividualGames.length / 3)}
         stats={searchContext.progressionStats}

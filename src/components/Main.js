@@ -5,6 +5,7 @@ import Search from "./Search";
 import BasicInfo from "./BasicInfo";
 import AllGamesStats from "./AllGamesStats";
 import ProgressionStats from "./ProgressionStats";
+import MatchHistory from "./MatchHistory";
 
 const Main = () => {
   const searchContext = useContext(SearchContext);
@@ -17,12 +18,15 @@ const Main = () => {
         <ProgressionStats />
       </div>
       <div className="flexbox main-right">
-        <Search />
-        {searchContext.isLoading && (
-          <div className="centered">
-            <LoadingSpinner />
-          </div>
-        )}
+        <div className="flexbox main-search">
+          <Search />
+          {searchContext.isLoading && (
+            <div className="centered">
+              <LoadingSpinner />
+            </div>
+          )}
+        </div>
+        <MatchHistory />
       </div>
     </div>
   );

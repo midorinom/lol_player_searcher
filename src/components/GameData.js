@@ -2,7 +2,7 @@ import React from "react";
 
 const GameData = (props) => {
   return (
-    <div>
+    <div className="gameData">
       <h3>({props.numberOfGames} Games):</h3>
       <p>
         {props.stats.wins} Wins {props.stats.losses} Losses (

@@ -16,7 +16,7 @@ function App() {
   const [summonerData, setSummonerData] = useState("");
   const [regionalRouting, setRegionalRouting] = useState("");
   const [allMatchIds, setAllMatchIds] = useState(
-    []
+    ""
     //   [
     //   "NA1_4448483308",
     //   "NA1_4448437019",
@@ -30,7 +30,7 @@ function App() {
     //   // "NA1_4446005457",
     // ]
   );
-  const [allIndividualGames, setAllIndividualGames] = useState([]);
+  const [allIndividualGames, setAllIndividualGames] = useState("");
   const [totalStats, setTotalStats] = useState("");
   const [progressionStats, setProgressionStats] = useState("");
 
@@ -145,7 +145,7 @@ function App() {
   // ==========================================
   // useEffect happens after allMatchIds is set
   useEffect(() => {
-    if (allMatchIds !== []) {
+    if (allMatchIds !== "") {
       fetchMatchesAndCalculateStats();
     }
   }, [allMatchIds]);

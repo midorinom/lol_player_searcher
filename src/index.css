@@ -117,10 +117,31 @@ body {
   height: 40%;
   width: 100%;
   border: 1px solid black;
+  padding: 1em;
 }
 
 .progressionStats {
   height: 45%;
   width: 100%;
   border: 1px solid black;
+  padding: 1em;
+}
+
+.main-search {
+  height: 15%;
+  width: 90%;
+  border: 1px solid black;
+  justify-content: center;
+  align-items: center;
+}
+
+.matchHistory {
+  height: 85%;
+  width: 90%;
+  border: 1px solid black;
+  padding: 1em;
+}
+
+.statsHeader {
+  margin: 0;
 }
