@@ -14,17 +14,13 @@ const MatchHistory = () => {
   function handleClick(e) {
     switch (e.target.value) {
       case "Previous":
-        console.log("previous clicked");
         if (pageNumber === 1) {
           return;
         } else {
-          console.log("page number is not 1");
           setPageNumber((prevState) => prevState - 1);
         }
         break;
       case "Next":
-        console.log(pageNumber);
-        console.log("next clicked");
         if (
           pageNumber ===
           Math.ceil(searchContext.allIndividualGames.current.length / 5)
@@ -40,13 +36,16 @@ const MatchHistory = () => {
   }
 
   function handlePageChange(e) {
-    console.log(e.target.value);
     setPageNumber(Number(e.target.value)); // Convert to number otherwise it is passed as a string
   }
 
   // useEffect runs when a new search takes place
   useEffect(() => {
     if (searchContext.totalStats !== "") {
+      console.log(
+        "allIndividualGames",
+        searchContext.allIndividualGames.current
+      );
       generatePageOptions();
       // If a new search was made while the page was left on 1, the next useEffect won't happen, so will need to generate
       // matchHistoryCards here
@@ -75,15 +74,17 @@ const MatchHistory = () => {
 
     const matchHistoryCards2 = gamesOnCurrentPage.map((element, index) => {
       const playerStats = {
+        championName: "",
         wins: 0,
         losses: 0,
-        championName: "",
+        gameDuration: 0,
         kills: 0,
         deaths: 0,
         assists: 0,
         damageShare: 0,
         goldPerMin: 0,
         deathsPer10Min: 0,
+        items: {},
       };
 
       searchContext.totalUpPlayerData(element, playerStats, true);
@@ -117,9 +118,7 @@ const MatchHistory = () => {
     <div className="flexbox main-matchHistory">
       <div className="matchHistory">
         <header className="flexbox matchHistoryHeader">
-          <h3 className="statsHeader">
-            Match History (page number is: {pageNumber})
-          </h3>
+          <h3 className="statsHeader">Match History</h3>
           <div className="flexbox matchHistoryHeaderRight">
             <button value="Previous" onClick={handleClick}>
               Previous

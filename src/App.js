@@ -257,6 +257,16 @@ function App() {
     // Additional Stats for Match History
     if (isMatchHistoryCard) {
       totalStats.championName = playerData.championName;
+      totalStats.gameDuration = individualGameData.info.gameDuration;
+      totalStats.items = {
+        item0: playerData.item0,
+        item1: playerData.item1,
+        item2: playerData.item2,
+        item3: playerData.item3,
+        item4: playerData.item4,
+        item5: playerData.item5,
+        item6: playerData.item6,
+      };
     }
   }
 
