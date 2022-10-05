@@ -106,8 +106,7 @@ function App() {
         `https://${regionalRouting}.api.riotgames.com/lol/match/v5/matches/by-puuid/${summonerPuuid}/ids?api_key=${apiKey}&queue=${queueId}&start=0&count=3`
       );
       const data = await res.json();
-      console.log("data from fetching match ids");
-      console.log(data);
+      console.log("data from fetching match ids", data);
 
       setAllMatchIds(data);
     } catch (err) {
@@ -128,12 +127,11 @@ function App() {
   }, [allMatchIds]);
 
   // Fetch All Individual Games Function
-  function fetchAllIndividualGames() {
+  async function fetchAllIndividualGames() {
     for (let i = 0; i < allMatchIds.length; i++) {
-      fetchIndividualGame(regionalRouting, allMatchIds[i]);
+      await fetchIndividualGame(regionalRouting, allMatchIds[i]);
     }
-    console.log("array of all individual games (ref)");
-    console.log(allIndividualGames.current);
+    console.log("allIndividualGames (ref)", allIndividualGames.current);
     setFetchDoneAllIndividualGames(true);
   }
 
@@ -149,9 +147,7 @@ function App() {
       );
       const data = await res.json();
 
-      console.log("data from fetching individual game");
-      console.log(data);
-
+      console.log("data from fetching individual game", data);
       setIndividualGameData(data);
     } catch (err) {
       setError(err.message);
@@ -199,14 +195,16 @@ function App() {
         pentaKills: 0,
       };
 
+      console.log("allindividualgames", allIndividualGames.current);
+      console.log("allindividualgames[0]", allIndividualGames.current[0]);
+
       //Total Stats
       for (const item of allIndividualGames.current) {
         console.log("for of loop to total up stats");
         totalUpPlayerData(item, tempTotalStats);
       }
 
-      console.log("tempTotalStats");
-      console.log(tempTotalStats);
+      console.log("tempTotalStats", tempTotalStats);
 
       setTotalStats(tempTotalStats);
     }
@@ -274,8 +272,7 @@ function App() {
     totalStats.damageShare +=
       playerData.totalDamageDealtToChampions / totalTeamDamage;
 
-    console.log("total stats after totalling function");
-    console.log(totalStats);
+    console.log("total stats after totalling function", totalStats);
   }
 
   // ======
