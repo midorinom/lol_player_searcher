@@ -23,6 +23,7 @@ function App() {
   const allIndividualGames = useRef([]);
   const [fetchDoneAllIndividualGames, setFetchDoneAllIndividualGames] =
     useState(false);
+  const [matchHistoryPageNumber, setMatchHistorypageNumber] = useState(1);
 
   function handleModalOkay() {
     setError(false);
@@ -219,7 +220,6 @@ function App() {
       oldestProgressionStats,
     ];
 
-    console.log("progressionStats2", progressionStats2);
     setProgressionStats(progressionStats2);
   }
 
@@ -259,8 +259,6 @@ function App() {
       endIndex
     );
 
-    console.log("progressionGames", progressionGames);
-
     const totalProgressionStats = {
       wins: 0,
       losses: 0,
@@ -292,6 +290,9 @@ function App() {
           allIndividualGames,
           totalStats,
           progressionStats,
+          matchHistoryPageNumber,
+          setMatchHistorypageNumber,
+          totalUpPlayerData,
         }}
       >
         <Suspense
