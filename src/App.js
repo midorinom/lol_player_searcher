@@ -18,7 +18,7 @@ function App() {
   const [queueId, setQueueId] = useState("");
   const [allMatchIds, setAllMatchIds] = useState("");
   const [totalStats, setTotalStats] = useState("");
-  const [progressionStats, setProgressionStats] = useState("");
+  const [progressionStats, setProgressionStats] = useState(["", "", ""]);
   const [individualGameData, setIndividualGameData] = useState("");
   const allIndividualGames = useRef([]);
   const [fetchDoneAllIndividualGames, setFetchDoneAllIndividualGames] =
@@ -181,48 +181,46 @@ function App() {
         damageShare: 0,
         goldPerMin: 0,
         deathsPer10Min: 0,
-        doubleKills: 0,
-        tripleKills: 0,
-        quadraKills: 0,
-        pentaKills: 0,
       };
 
-      //Total Stats
+      // Total Stats
       for (const item of allIndividualGames.current) {
         totalUpPlayerData(item, tempTotalStats);
       }
-
-      console.log("temptotalStats", tempTotalStats);
 
       setTotalStats(tempTotalStats);
     }
 
     // Progression Stats
-    const newestGames = allIndividualGames.current.slice(
+    const newestProgressionStats = totalUpProgressionStats(
       0,
       Math.floor(allIndividualGames.current.length / 3)
     );
 
-    // Newest
-    const totalNewestGames = {
-      wins: 0,
-      losses: 0,
-      kills: 0,
-      deaths: 0,
-      assists: 0,
-      damageShare: 0,
-      goldPerMin: 0,
-      deathsPer10Min: 0,
-      doubleKills: 0,
-      tripleKills: 0,
-      quadraKills: 0,
-      pentaKills: 0,
-    };
-
-    for (const individualGameData of newestGames) {
-      totalUpPlayerData(individualGameData, totalNewestGames);
+    let middleProgressionStats = "";
+    if (allIndividualGames.current.length > 1) {
+      middleProgressionStats = totalUpProgressionStats(
+        Math.floor(allIndividualGames.current.length / 3),
+        Math.floor(allIndividualGames.current.length / 3) * 2
+      );
     }
-    setProgressionStats(totalNewestGames);
+
+    let oldestProgressionStats = "";
+    if (allIndividualGames.current.length > 2) {
+      oldestProgressionStats = totalUpProgressionStats(
+        Math.floor(allIndividualGames.current.length / 3) * 2,
+        Math.floor(allIndividualGames.current.length / 3) * 3
+      );
+    }
+
+    const progressionStats2 = [
+      newestProgressionStats,
+      middleProgressionStats,
+      oldestProgressionStats,
+    ];
+
+    console.log("progressionStats2", progressionStats2);
+    setProgressionStats(progressionStats2);
   }
 
   // Function that totals stats
@@ -230,8 +228,6 @@ function App() {
     const playerData = individualGameData.info.participants.find(
       (player) => player.puuid === summonerData.puuid
     );
-
-    console.log(playerData);
 
     // Easy Stats
     playerData.win ? totalStats.wins++ : totalStats.losses++;
@@ -245,11 +241,6 @@ function App() {
     totalStats.deathsPer10Min +=
       playerData.deaths / (individualGameData.info.gameDuration / 600);
 
-    totalStats.doubleKills += playerData.doubleKills;
-    totalStats.tripleKills += playerData.tripleKills;
-    totalStats.quadraKills += playerData.quadraKills;
-    totalStats.pentaKills += playerData.pentaKills;
-
     // Calculate Damage Share
     let totalTeamDamage = 0;
     for (const player of individualGameData.info.participants) {
@@ -259,6 +250,32 @@ function App() {
     }
     totalStats.damageShare +=
       playerData.totalDamageDealtToChampions / totalTeamDamage;
+  }
+
+  // Function to Total Up Progression Stats
+  function totalUpProgressionStats(startIndex, endIndex) {
+    const progressionGames = allIndividualGames.current.slice(
+      startIndex,
+      endIndex
+    );
+
+    console.log("progressionGames", progressionGames);
+
+    const totalProgressionStats = {
+      wins: 0,
+      losses: 0,
+      kills: 0,
+      deaths: 0,
+      assists: 0,
+      damageShare: 0,
+      goldPerMin: 0,
+      deathsPer10Min: 0,
+    };
+
+    for (const item of progressionGames) {
+      totalUpPlayerData(item, totalProgressionStats);
+    }
+    return totalProgressionStats;
   }
 
   // ======

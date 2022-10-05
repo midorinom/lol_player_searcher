@@ -122,12 +122,13 @@ body {
   padding: 1em;
 }
 
-.progressionStats {
+.main-progressionStats {
   height: 44%;
   width: 98%;
+  justify-content: space-around;
   border: 1px solid black;
   border-radius: 1em;
-  padding: 1em;
+  padding: 0.5em;
 }
 
 .main-search {
@@ -154,4 +155,13 @@ body {
 
 .statsHeader {
   margin: 0;
+}
+
+.progressionStats {
+  height: 100%;
+  width: 32%;
+  border: 1px solid black;
+  border-radius: 1em;
+  padding: 1em;
+  font-size: 0.9rem;
 }

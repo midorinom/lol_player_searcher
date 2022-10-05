@@ -3,7 +3,6 @@ import React from "react";
 const GameData = (props) => {
   return (
     <div className="gameData">
-      <h3>({props.numberOfGames} Games):</h3>
       <p>
         {props.stats.wins} Wins {props.stats.losses} Losses (
         {Math.round(
@@ -32,11 +31,6 @@ const GameData = (props) => {
         Average Deaths per 10 minutes :{" "}
         {Math.round((props.stats.deathsPer10Min / props.numberOfGames) * 100) /
           100}
-      </p>
-      <p>
-        Multikills : {props.stats.doubleKills} doublekills,{" "}
-        {props.stats.tripleKills} triplekills, {props.stats.quadraKills}{" "}
-        quadrakills, {props.stats.pentaKills} pentakills
       </p>
     </div>
   );

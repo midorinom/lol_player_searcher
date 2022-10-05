@@ -10,7 +10,9 @@ const AllGamesStats = () => {
   // ======
   return (
     <div className="allGamesStats">
-      <h3 className="statsHeader">Total Stats</h3>
+      <h3 className="statsHeader">
+        Total Stats ({searchContext.allIndividualGames.current.length} Games)
+      </h3>
       <GameData
         numberOfGames={searchContext.allIndividualGames.current.length}
         stats={searchContext.totalStats}
