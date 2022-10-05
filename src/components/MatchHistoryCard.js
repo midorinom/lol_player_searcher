@@ -6,6 +6,7 @@ const MatchHistoryCard = (props) => {
       <img
         className="matchHistoryCardChampion"
         src={`http://ddragon.leagueoflegends.com/cdn/12.19.1/img/champion/${props.stats.championName}.png`}
+        alt={props.stats.championName}
       />
       <div className="matchHistoryCardStats">
         <p>{props.stats.wins === 1 ? "Victory" : "Defeat"}</p>

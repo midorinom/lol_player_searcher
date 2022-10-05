@@ -23,7 +23,6 @@ function App() {
   const allIndividualGames = useRef([]);
   const [fetchDoneAllIndividualGames, setFetchDoneAllIndividualGames] =
     useState(false);
-  const [matchHistoryPageNumber, setMatchHistorypageNumber] = useState(1);
 
   function handleModalOkay() {
     setError(false);
@@ -299,8 +298,6 @@ function App() {
           allIndividualGames,
           totalStats,
           progressionStats,
-          matchHistoryPageNumber,
-          setMatchHistorypageNumber,
           totalUpPlayerData,
         }}
       >
