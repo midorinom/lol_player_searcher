@@ -15,13 +15,16 @@ const MatchHistory = () => {
     if (searchContext.totalStats !== "") {
       const gamesOnCurrentPage = searchContext.allIndividualGames.current.slice(
         searchContext.matchHistoryPageNumber * 5 - 5,
-        searchContext.matchHistoryPageNumber * 5 - 1
+        searchContext.matchHistoryPageNumber * 5
       );
+
+      console.log(searchContext.allIndividualGames.current);
 
       const matchHistoryCards2 = gamesOnCurrentPage.map((element, index) => {
         const playerStats = {
           wins: 0,
           losses: 0,
+          championName: "",
           kills: 0,
           deaths: 0,
           assists: 0,
@@ -30,7 +33,9 @@ const MatchHistory = () => {
           deathsPer10Min: 0,
         };
 
-        searchContext.totalUpPlayerData(element, playerStats);
+        searchContext.totalUpPlayerData(element, playerStats, true);
+
+        console.log("playerstats", playerStats);
 
         return (
           <MatchHistoryCard stats={playerStats} numberOfGames={1} key={index} />

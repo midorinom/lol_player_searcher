@@ -151,6 +151,7 @@ body {
   border: 1px solid black;
   border-radius: 1em;
   padding: 1em;
+  padding-top: 0.5em;
 }
 
 .statsHeader {
@@ -163,7 +164,7 @@ body {
   border: 1px solid black;
   border-radius: 1em;
   padding: 1em;
-  font-size: 0.9rem;
+  font-size: 1.7vmin;
 }
 
 .matchHistoryHeader {
@@ -178,5 +179,19 @@ body {
 }
 
 .matchHistoryCards {
+  height: 95%;
   flex-direction: column;
+  justify-content: space-around;
+}
+
+.matchHistoryCard {
+  font-size: 0.8vmin;
+  border: 1px solid black;
+  border-radius: 1em;
+  padding: 1em;
+}
+
+.matchHistoryCardChampion {
+  height: 80%;
+  width: 10%;
 }

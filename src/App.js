@@ -103,7 +103,7 @@ function App() {
     // Change the count to 100 when the app is done
     try {
       const res = await fetch(
-        `https://${regionalRouting}.api.riotgames.com/lol/match/v5/matches/by-puuid/${summonerPuuid}/ids?api_key=${apiKey}&queue=${queueId}&start=0&count=3`
+        `https://${regionalRouting}.api.riotgames.com/lol/match/v5/matches/by-puuid/${summonerPuuid}/ids?api_key=${apiKey}&queue=${queueId}&start=0&count=6`
       );
       const data = await res.json();
 
@@ -224,7 +224,11 @@ function App() {
   }
 
   // Function that totals stats
-  function totalUpPlayerData(individualGameData, totalStats) {
+  function totalUpPlayerData(
+    individualGameData,
+    totalStats,
+    isMatchHistoryCard = false
+  ) {
     const playerData = individualGameData.info.participants.find(
       (player) => player.puuid === summonerData.puuid
     );
@@ -250,6 +254,11 @@ function App() {
     }
     totalStats.damageShare +=
       playerData.totalDamageDealtToChampions / totalTeamDamage;
+
+    // Additional Stats for Match History
+    if (isMatchHistoryCard) {
+      totalStats.championName = playerData.championName;
+    }
   }
 
   // Function to Total Up Progression Stats
