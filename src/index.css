@@ -176,3 +176,7 @@ body {
   width: 30%;
   justify-content: space-around;
 }
+
+.matchHistoryCards {
+  flex-direction: column;
+}

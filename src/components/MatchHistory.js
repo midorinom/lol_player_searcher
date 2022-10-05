@@ -1,17 +1,15 @@
 import React, { useState, useContext, useRef, useEffect } from "react";
 import SearchContext from "../context/searchContext";
-import GameData from "./GameData";
+import MatchHistoryCard from "./MatchHistoryCard";
 
 const MatchHistory = () => {
   const searchContext = useContext(SearchContext);
   const pageSelectRef = useRef("");
-  const [matchHistory, setMatchHistory] = useState([]);
+  const [matchHistoryCards, setMatchHistoryCards] = useState([]);
 
   function handleSubmit() {
     return;
   }
-
-  // let allMatchHistoryCards = "";
 
   useEffect(() => {
     if (searchContext.totalStats !== "") {
@@ -20,48 +18,28 @@ const MatchHistory = () => {
         searchContext.matchHistoryPageNumber * 5 - 1
       );
 
-      setMatchHistory(gamesOnCurrentPage);
+      const matchHistoryCards2 = gamesOnCurrentPage.map((element, index) => {
+        const playerStats = {
+          wins: 0,
+          losses: 0,
+          kills: 0,
+          deaths: 0,
+          assists: 0,
+          damageShare: 0,
+          goldPerMin: 0,
+          deathsPer10Min: 0,
+        };
 
-      // allMatchHistoryCards = gamesOnCurrentPage.map((element) => {
-      //   const playerStats = {
-      //     wins: 0,
-      //     losses: 0,
-      //     kills: 0,
-      //     deaths: 0,
-      //     assists: 0,
-      //     damageShare: 0,
-      //     goldPerMin: 0,
-      //     deathsPer10Min: 0,
-      //   };
+        searchContext.totalUpPlayerData(element, playerStats);
 
-      //   searchContext.totalUpPlayerData(element, playerStats);
+        return (
+          <MatchHistoryCard stats={playerStats} numberOfGames={1} key={index} />
+        );
+      });
 
-      //   return <GameData stats={playerStats} numberOfGames={1} />;
-      // });
-
-      // console.log("allMatchHistoryCards", allMatchHistoryCards);
-      // setMatchHistory(true);
+      setMatchHistoryCards(matchHistoryCards2);
     }
   }, [searchContext.totalStats]);
-
-  // console.log({ allMatchHistoryCards });
-
-  const history = matchHistory.map((element) => {
-    const playerStats = {
-      wins: 0,
-      losses: 0,
-      kills: 0,
-      deaths: 0,
-      assists: 0,
-      damageShare: 0,
-      goldPerMin: 0,
-      deathsPer10Min: 0,
-    };
-
-    searchContext.totalUpPlayerData(element, playerStats);
-
-    return <GameData stats={playerStats} numberOfGames={1} />;
-  });
 
   return (
     <div className="flexbox main-matchHistory">
@@ -79,7 +57,7 @@ const MatchHistory = () => {
             </form>
           </div>
         </header>
-        <main className="flexbox MatchHistoryCards">{history}</main>
+        <main className="flexbox matchHistoryCards">{matchHistoryCards}</main>
       </div>
     </div>
   );
