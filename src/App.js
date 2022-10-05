@@ -17,7 +17,6 @@ function App() {
   const [regionalRouting, setRegionalRouting] = useState("");
   const [queueId, setQueueId] = useState("");
   const [allMatchIds, setAllMatchIds] = useState("");
-  // const [allIndividualGames, setAllIndividualGames] = useState([]);
   const [totalStats, setTotalStats] = useState("");
   const [progressionStats, setProgressionStats] = useState("");
   const [individualGameData, setIndividualGameData] = useState("");
@@ -60,12 +59,17 @@ function App() {
   const fetchSummonerData = async (summonerName, platformRouting) => {
     setIsLoading(true);
     setError(null);
+    allIndividualGames.current = [];
 
     try {
       const res = await fetch(
         `https://${platformRouting}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${apiKey}`
       );
       const data = await res.json();
+
+      // Set Regional Routing
+      const regionalRouting2 = getRegionalRouting(platformRouting);
+      setRegionalRouting(regionalRouting2);
 
       // Summoner Data
       setSummonerData({
@@ -74,10 +78,6 @@ function App() {
         profileIconId: `http://ddragon.leagueoflegends.com/cdn/12.18.1/img/profileicon/${data.profileIconId}.png`,
         summonerLevel: data.summonerLevel,
       });
-
-      // Set Regional Routing
-      const regionalRouting2 = getRegionalRouting(platformRouting);
-      setRegionalRouting(regionalRouting2);
     } catch (err) {
       setError(err.message);
     }
@@ -90,14 +90,13 @@ function App() {
   // ===================
   // useEffect happens after regionalRouting is set
   useEffect(() => {
-    if (regionalRouting !== "") {
+    if (summonerData !== "") {
       fetchAllMatchIds(summonerData.puuid, regionalRouting, queueId);
     }
-  }, [regionalRouting]);
+  }, [summonerData]);
 
   // Match Ids Fetch Function
   const fetchAllMatchIds = async (summonerPuuid, regionalRouting, queueId) => {
-    console.log("fetching match ids");
     setIsLoading(true);
 
     // Change the count to 100 when the app is done
@@ -106,7 +105,6 @@ function App() {
         `https://${regionalRouting}.api.riotgames.com/lol/match/v5/matches/by-puuid/${summonerPuuid}/ids?api_key=${apiKey}&queue=${queueId}&start=0&count=3`
       );
       const data = await res.json();
-      console.log("data from fetching match ids", data);
 
       setAllMatchIds(data);
     } catch (err) {
@@ -131,23 +129,19 @@ function App() {
     for (let i = 0; i < allMatchIds.length; i++) {
       await fetchIndividualGame(regionalRouting, allMatchIds[i]);
     }
-    console.log("allIndividualGames (ref)", allIndividualGames.current);
     setFetchDoneAllIndividualGames(true);
   }
 
   // Individual Game Fetch Function
   const fetchIndividualGame = async (regionalRouting, matchId) => {
-    console.log("fetching individual game");
     setIsLoading(true);
 
-    // Change the count to 100 when the app is done
     try {
       const res = await fetch(
         `https://${regionalRouting}.api.riotgames.com/lol/match/v5/matches/${matchId}/?api_key=${apiKey}`
       );
       const data = await res.json();
 
-      console.log("data from fetching individual game", data);
       setIndividualGameData(data);
     } catch (err) {
       setError(err.message);
@@ -177,8 +171,6 @@ function App() {
 
   // Calculate Stats Function
   function calculateStats() {
-    console.log("is calculating stats");
-
     {
       const tempTotalStats = {
         wins: 0,
@@ -195,16 +187,12 @@ function App() {
         pentaKills: 0,
       };
 
-      console.log("allindividualgames", allIndividualGames.current);
-      console.log("allindividualgames[0]", allIndividualGames.current[0]);
-
       //Total Stats
       for (const item of allIndividualGames.current) {
-        console.log("for of loop to total up stats");
         totalUpPlayerData(item, tempTotalStats);
       }
 
-      console.log("tempTotalStats", tempTotalStats);
+      console.log("temptotalStats", tempTotalStats);
 
       setTotalStats(tempTotalStats);
     }
@@ -239,11 +227,11 @@ function App() {
 
   // Function that totals stats
   function totalUpPlayerData(individualGameData, totalStats) {
-    console.log("is totalling up player data");
-
     const playerData = individualGameData.info.participants.find(
       (player) => player.puuid === summonerData.puuid
     );
+
+    console.log(playerData);
 
     // Easy Stats
     playerData.win ? totalStats.wins++ : totalStats.losses++;
@@ -271,8 +259,6 @@ function App() {
     }
     totalStats.damageShare +=
       playerData.totalDamageDealtToChampions / totalTeamDamage;
-
-    console.log("total stats after totalling function", totalStats);
   }
 
   // ======
