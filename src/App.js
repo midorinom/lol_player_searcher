@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, Suspense } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import SearchContext from "./context/searchContext";
 import ErrorModal from "./components/ErrorModal";
 import LoadingSpinner from "./components/LoadingSpinner";
@@ -302,6 +302,7 @@ function App() {
           }
         >
           <Routes>
+            <Route path="/search" element={<Navigate replace to="/" />} />
             <Route
               path="/"
               element={
@@ -319,7 +320,7 @@ function App() {
             />
             {summonerData && (
               <Route
-                path="/main"
+                path="/search/:platformRouting/:summonerName"
                 element={
                   <>
                     {error && (

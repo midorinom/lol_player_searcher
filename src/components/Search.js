@@ -22,7 +22,7 @@ const Search = () => {
     searchContext.setQueueId(queueId2);
     searchContext.fetchSummonerData(summonerName, platformRouting, queueId2);
 
-    navigate("/main");
+    navigate(`/search/${platformRouting}/${summonerName}`);
   }
 
   return (
