@@ -9,25 +9,33 @@ const MatchHistory = () => {
   const searchContext = useContext(SearchContext);
   const [matchHistoryCards, setMatchHistoryCards] = useState([]);
   const [pageNumber, setPageNumber] = useState(0);
+  const [pageOptions, setPageOptions] = useState(<option value="1">1</option>);
 
   function handleClick(e) {
-    switch (e.target.innerText) {
+    switch (e.target.value) {
       case "Previous":
         console.log("previous clicked");
-        if (pageNumber === 1) return;
-        else {
+        if (pageNumber === 1) {
+          return;
+        } else {
+          console.log("page number is not 1");
           setPageNumber((prevState) => prevState - 1);
         }
+        break;
       case "Next":
+        console.log(pageNumber);
         console.log("next clicked");
         if (
           pageNumber ===
           Math.ceil(searchContext.allIndividualGames.current.length / 5)
-        )
+        ) {
           return;
-        else {
+        } else {
           setPageNumber((prevState) => prevState + 1);
         }
+        break;
+      default:
+        return;
     }
   }
 
@@ -39,6 +47,7 @@ const MatchHistory = () => {
   // useEffect runs when a new search takes place
   useEffect(() => {
     if (searchContext.totalStats !== "") {
+      generatePageOptions();
       // If a new search was made while the page was left on 1, the next useEffect won't happen, so will need to generate
       // matchHistoryCards here
       if (pageNumber === 1) {
@@ -87,6 +96,23 @@ const MatchHistory = () => {
     setMatchHistoryCards(matchHistoryCards2);
   }
 
+  // Function to generate page Option components
+  function generatePageOptions() {
+    const pageOptions2 = [];
+    for (
+      let i = 1;
+      i <= Math.ceil(searchContext.allIndividualGames.current.length / 5);
+      i++
+    ) {
+      pageOptions2.push(
+        <option value={i} key={i}>
+          {i}
+        </option>
+      );
+    }
+    setPageOptions(pageOptions2);
+  }
+
   return (
     <div className="flexbox main-matchHistory">
       <div className="matchHistory">
@@ -95,16 +121,19 @@ const MatchHistory = () => {
             Match History (page number is: {pageNumber})
           </h3>
           <div className="flexbox matchHistoryHeaderRight">
-            <button onClick={handleClick}>Previous</button>
-            <button onClick={handleClick}>Next</button>
+            <button value="Previous" onClick={handleClick}>
+              Previous
+            </button>
+            <button value="Next" onClick={handleClick}>
+              Next
+            </button>
             <form>
               <select
                 name="region-selector"
                 onChange={handlePageChange}
                 value={pageNumber}
               >
-                <option value="1">1</option>
-                <option value="2">2</option>
+                {pageOptions}
               </select>
             </form>
           </div>
