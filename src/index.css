@@ -50,6 +50,7 @@ body {
   width: 50%;
   flex-direction: column;
   align-items: center;
+  justify-content: space-around;
 }
 
 .main-right {
@@ -67,7 +68,7 @@ body {
 
 .basic-info-left {
   height: 100%;
-  width: 50%;
+  width: 40%;
   justify-content: flex-end;
   align-items: center;
 }
@@ -114,16 +115,18 @@ body {
 }
 
 .allGamesStats {
-  height: 40%;
-  width: 100%;
+  height: 39%;
+  width: 98%;
   border: 1px solid black;
+  border-radius: 1em;
   padding: 1em;
 }
 
 .progressionStats {
-  height: 45%;
-  width: 100%;
+  height: 44%;
+  width: 98%;
   border: 1px solid black;
+  border-radius: 1em;
   padding: 1em;
 }
 

@@ -12,7 +12,7 @@ const AllGamesStats = () => {
     <div className="allGamesStats">
       <h3 className="statsHeader">Total Stats</h3>
       <GameData
-        numberOfGames={searchContext.allIndividualGames.length}
+        numberOfGames={searchContext.allIndividualGames.current.length}
         stats={searchContext.totalStats}
       />
     </div>

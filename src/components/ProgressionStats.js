@@ -9,7 +9,9 @@ const ProgressionStats = () => {
     <div className="progressionStats">
       <h3 className="statsHeader">Newest Games</h3>
       <GameData
-        numberOfGames={Math.floor(searchContext.allIndividualGames.length / 3)}
+        numberOfGames={Math.floor(
+          searchContext.allIndividualGames.current.length / 3
+        )}
         stats={searchContext.progressionStats}
       />
     </div>

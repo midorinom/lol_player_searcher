@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Suspense } from "react";
+import React, { useState, useEffect, useRef, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import SearchContext from "./context/searchContext";
 import ErrorModal from "./components/ErrorModal";
@@ -15,24 +15,15 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [summonerData, setSummonerData] = useState("");
   const [regionalRouting, setRegionalRouting] = useState("");
-  const [allMatchIds, setAllMatchIds] = useState(
-    ""
-    //   [
-    //   "NA1_4448483308",
-    //   "NA1_4448437019",
-    //   "NA1_4447662355",
-    //   // "NA1_4447616776",
-    //   // "NA1_4447631324",
-    //   // "NA1_4446707026",
-    //   // "NA1_4446742801",
-    //   // "NA1_4446048742",
-    //   // "NA1_4446090192",
-    //   // "NA1_4446005457",
-    // ]
-  );
-  const [allIndividualGames, setAllIndividualGames] = useState("");
+  const [queueId, setQueueId] = useState("");
+  const [allMatchIds, setAllMatchIds] = useState("");
+  // const [allIndividualGames, setAllIndividualGames] = useState([]);
   const [totalStats, setTotalStats] = useState("");
   const [progressionStats, setProgressionStats] = useState("");
+  const [individualGameData, setIndividualGameData] = useState("");
+  const allIndividualGames = useRef([]);
+  const [fetchDoneAllIndividualGames, setFetchDoneAllIndividualGames] =
+    useState(false);
 
   function handleModalOkay() {
     setError(false);
@@ -63,54 +54,10 @@ function App() {
     }
   }
 
-  // ===================
-  // Fetch All Match Ids
-  // ===================
-  const fetchAllMatchIds = async (summonerPuuid, regionalRouting, queueId) => {
-    setIsLoading(true);
-    setError(null);
-
-    // Change the count to 100 when the app is done
-    try {
-      const res = await fetch(
-        `https://${regionalRouting}.api.riotgames.com/lol/match/v5/matches/by-puuid/${summonerPuuid}/ids?api_key=${apiKey}&queue=${queueId}&start=0&count=3`
-      );
-      const data = await res.json();
-
-      setAllMatchIds(data);
-    } catch (err) {
-      setError(err.message);
-    }
-
-    setIsLoading(false);
-  };
-
-  // =====================
-  // Fetch Individual Game
-  // =====================
-  const fetchIndividualGame = async (regionalRouting, matchId, array) => {
-    setIsLoading(true);
-    setError(null);
-
-    // Change the count to 100 when the app is done
-    try {
-      const res = await fetch(
-        `https://${regionalRouting}.api.riotgames.com/lol/match/v5/matches/${matchId}/?api_key=${apiKey}`
-      );
-      const data = await res.json();
-
-      array.push(data);
-    } catch (err) {
-      setError(err.message);
-    }
-
-    setIsLoading(false);
-  };
-
   // =================================
-  // Fetch Summoner Data and Match Ids
+  // Fetch Summoner Data
   // =================================
-  const fetchSummonerData = async (summonerName, platformRouting, queueId) => {
+  const fetchSummonerData = async (summonerName, platformRouting) => {
     setIsLoading(true);
     setError(null);
 
@@ -128,11 +75,9 @@ function App() {
         summonerLevel: data.summonerLevel,
       });
 
-      // Match Ids
-      const regionalRouting = getRegionalRouting(platformRouting);
-      setRegionalRouting(regionalRouting);
-
-      fetchAllMatchIds(data.puuid, regionalRouting, queueId);
+      // Set Regional Routing
+      const regionalRouting2 = getRegionalRouting(platformRouting);
+      setRegionalRouting(regionalRouting2);
     } catch (err) {
       setError(err.message);
     }
@@ -140,34 +85,103 @@ function App() {
     setIsLoading(false);
   };
 
-  // ===========================================
-  // Fetch Individual Games and Calculate Stats
-  // ==========================================
+  // ===================
+  // Fetch All Match Ids
+  // ===================
+  // useEffect happens after regionalRouting is set
+  useEffect(() => {
+    if (regionalRouting !== "") {
+      fetchAllMatchIds(summonerData.puuid, regionalRouting, queueId);
+    }
+  }, [regionalRouting]);
+
+  // Match Ids Fetch Function
+  const fetchAllMatchIds = async (summonerPuuid, regionalRouting, queueId) => {
+    console.log("fetching match ids");
+    setIsLoading(true);
+
+    // Change the count to 100 when the app is done
+    try {
+      const res = await fetch(
+        `https://${regionalRouting}.api.riotgames.com/lol/match/v5/matches/by-puuid/${summonerPuuid}/ids?api_key=${apiKey}&queue=${queueId}&start=0&count=3`
+      );
+      const data = await res.json();
+      console.log("data from fetching match ids");
+      console.log(data);
+
+      setAllMatchIds(data);
+    } catch (err) {
+      setError(err.message);
+    }
+
+    setIsLoading(false);
+  };
+
+  // ======================
+  // Fetch Individual Games
+  // ======================
   // useEffect happens after allMatchIds is set
   useEffect(() => {
     if (allMatchIds !== "") {
-      fetchMatchesAndCalculateStats();
+      fetchAllIndividualGames();
     }
   }, [allMatchIds]);
 
-  function fetchMatchesAndCalculateStats() {
-    const arrayAllIndividualGames = [];
-
+  // Fetch All Individual Games Function
+  function fetchAllIndividualGames() {
     for (let i = 0; i < allMatchIds.length; i++) {
-      fetchIndividualGame(
-        regionalRouting,
-        allMatchIds[i],
-        arrayAllIndividualGames
+      fetchIndividualGame(regionalRouting, allMatchIds[i]);
+    }
+    console.log("array of all individual games (ref)");
+    console.log(allIndividualGames.current);
+    setFetchDoneAllIndividualGames(true);
+  }
+
+  // Individual Game Fetch Function
+  const fetchIndividualGame = async (regionalRouting, matchId) => {
+    console.log("fetching individual game");
+    setIsLoading(true);
+
+    // Change the count to 100 when the app is done
+    try {
+      const res = await fetch(
+        `https://${regionalRouting}.api.riotgames.com/lol/match/v5/matches/${matchId}/?api_key=${apiKey}`
       );
+      const data = await res.json();
+
+      console.log("data from fetching individual game");
+      console.log(data);
+
+      setIndividualGameData(data);
+    } catch (err) {
+      setError(err.message);
     }
 
-    console.log("arrayAllIndividualGames");
-    console.log(arrayAllIndividualGames);
+    setIsLoading(false);
+  };
 
-    setAllIndividualGames(arrayAllIndividualGames);
+  // useEffect happens after individualGameData is set
+  useEffect(() => {
+    if (individualGameData !== "") {
+      allIndividualGames.current.push(individualGameData);
+    }
+  }, [individualGameData]);
 
-    console.log("state allIndividualGames");
-    console.log(allIndividualGames);
+  // ===============
+  // Calculate Stats
+  // ===============
+  // useEffect happens after  all Individual Games have been fetched
+
+  useEffect(() => {
+    if (fetchDoneAllIndividualGames) {
+      setFetchDoneAllIndividualGames(false);
+      calculateStats();
+    }
+  }, [fetchDoneAllIndividualGames]);
+
+  // Calculate Stats Function
+  function calculateStats() {
+    console.log("is calculating stats");
 
     {
       const tempTotalStats = {
@@ -185,18 +199,25 @@ function App() {
         pentaKills: 0,
       };
 
-      for (const individualGameData of allIndividualGames) {
-        totalUpPlayerData(individualGameData, tempTotalStats);
+      //Total Stats
+      for (const item of allIndividualGames.current) {
+        console.log("for of loop to total up stats");
+        totalUpPlayerData(item, tempTotalStats);
       }
+
+      console.log("tempTotalStats");
+      console.log(tempTotalStats);
+
       setTotalStats(tempTotalStats);
     }
 
     // Progression Stats
-    const newestGames = allIndividualGames.slice(
+    const newestGames = allIndividualGames.current.slice(
       0,
-      Math.floor(allIndividualGames.length / 3)
+      Math.floor(allIndividualGames.current.length / 3)
     );
 
+    // Newest
     const totalNewestGames = {
       wins: 0,
       losses: 0,
@@ -215,12 +236,13 @@ function App() {
     for (const individualGameData of newestGames) {
       totalUpPlayerData(individualGameData, totalNewestGames);
     }
-
     setProgressionStats(totalNewestGames);
   }
 
   // Function that totals stats
   function totalUpPlayerData(individualGameData, totalStats) {
+    console.log("is totalling up player data");
+
     const playerData = individualGameData.info.participants.find(
       (player) => player.puuid === summonerData.puuid
     );
@@ -251,6 +273,9 @@ function App() {
     }
     totalStats.damageShare +=
       playerData.totalDamageDealtToChampions / totalTeamDamage;
+
+    console.log("total stats after totalling function");
+    console.log(totalStats);
   }
 
   // ======
@@ -263,6 +288,7 @@ function App() {
           summonerData,
           fetchSummonerData,
           isLoading,
+          setQueueId,
           allIndividualGames,
           totalStats,
           progressionStats,
