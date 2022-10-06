@@ -18,7 +18,7 @@ const Highlights = () => {
         highlightsStats={searchContext.highlightsStats}
         stat="highestKda"
       >
-        Highest Kda
+        Highest KDA
       </HighlightsCard>
       <HighlightsCard
         highlightsStats={searchContext.highlightsStats}
