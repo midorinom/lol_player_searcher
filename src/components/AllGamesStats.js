@@ -11,17 +11,19 @@ const AllGamesStats = () => {
   // ======
   return (
     <div className="flexbox allGamesStats">
-      <div classname="allGamesStats-left">
+      <div className="flexbox allGamesStats-left">
         <h3 className="statsHeader">
-          Total Stats ({searchContext.allIndividualGames.current.length} Games)
+          Total Average Stats ({searchContext.allIndividualGames.current.length}{" "}
+          Games)
         </h3>
         <GameData
           numberOfGames={searchContext.allIndividualGames.current.length}
           stats={searchContext.totalStats}
         />
       </div>
-      <div className="allGamesStats-right">
-        <Highlights />
+      <div className="flexbox allGamesStats-right">
+        <h3 className="statsHeader">Highlights</h3>
+        {searchContext.highlightsStats !== "" && <Highlights />}
       </div>
     </div>
   );

@@ -23,6 +23,7 @@ function App() {
   const allIndividualGames = useRef([]);
   const [fetchDoneAllIndividualGames, setFetchDoneAllIndividualGames] =
     useState(false);
+  const [highlightsStats, setHighlightsStats] = useState("");
 
   function handleModalOkay() {
     setError(false);
@@ -220,6 +221,17 @@ function App() {
     ];
 
     setProgressionStats(progressionStats2);
+
+    // Highlights Stats
+    const championStats = totalUpChampionStats();
+
+    // Add in KDA to championStats
+    for (const item of Object.values(championStats)) {
+      item.kda =
+        Math.round(((item.kills + item.assists) / item.deaths) * 100) / 100;
+    }
+
+    totalUpHighlightsStats(championStats);
   }
 
   // Function that totals stats
@@ -294,6 +306,116 @@ function App() {
     return totalProgressionStats;
   }
 
+  // Function to Total Up Champion Stats
+  function totalUpChampionStats() {
+    const championData = {};
+    for (const item of allIndividualGames.current) {
+      const playerData = item.info.participants.find(
+        (player) => player.puuid === summonerData.puuid
+      );
+
+      championData[playerData.championName] = {
+        numberOfGames: 0,
+        wins: 0,
+        losses: 0,
+        kills: 0,
+        deaths: 0,
+        assists: 0,
+        damageShare: 0,
+        goldPerMin: 0,
+        deathsPer10Min: 0,
+      };
+    }
+
+    for (const item of allIndividualGames.current) {
+      const playerData = item.info.participants.find(
+        (player) => player.puuid === summonerData.puuid
+      );
+
+      totalUpPlayerData(item, championData[playerData.championName]);
+      championData[playerData.championName].numberOfGames += 1;
+    }
+
+    return championData;
+  }
+
+  // Function to Total Up Highlights Stats
+  function totalUpHighlightsStats(championStats) {
+    const highestWinrate = findChampionWithHighestStats(championStats, "wins");
+    highestWinrate[1] = Math.round(highestWinrate[1] * 10000) / 100;
+
+    const highestKda = findChampionWithHighestStats(championStats, "kda");
+    highestKda[1] = Math.round(highestKda[1] * 100) / 100;
+
+    const highestDamageshare = findChampionWithHighestStats(
+      championStats,
+      "damageShare"
+    );
+    highestDamageshare[1] = Math.round(highestDamageshare[1] * 10000) / 100;
+
+    const highestGoldPerMin = findChampionWithHighestStats(
+      championStats,
+      "goldPerMin"
+    );
+    highestGoldPerMin[1] = Math.round(highestGoldPerMin[1] * 100) / 100;
+
+    const lowestDeathsPer10Min = findChampionWithHighestStats(
+      championStats,
+      "deathsPer10Min",
+      true
+    );
+    lowestDeathsPer10Min[1] = Math.round(lowestDeathsPer10Min[1] * 100) / 100;
+
+    const highlightsStats2 = {
+      highestWinrate: highestWinrate,
+      highestKda: highestKda,
+      highestDamageshare: highestDamageshare,
+      highestGoldPerMin: highestGoldPerMin,
+      lowestDeathsPer10Min: lowestDeathsPer10Min,
+    };
+
+    console.log("highlightsStats", highlightsStats2);
+    setHighlightsStats(highlightsStats2);
+  }
+
+  // Function to Find The Champion with the Highest Stats
+  function findChampionWithHighestStats(
+    championStats,
+    stat,
+    lowestStatsInstead = false
+  ) {
+    const championStatsValues = Object.values(championStats);
+    let championHighestStats = "";
+
+    // Map out an array containing all the total of the stat for each champion, averaged out according to number of games
+    const statsArray = championStatsValues.map(
+      (element) => element[stat] / element["numberOfGames"]
+    );
+    let highestStats = 0;
+
+    // If looking for Lowest Stats instead of Highest
+    if (lowestStatsInstead) {
+      highestStats = Math.min(...statsArray);
+    } else {
+      highestStats = Math.max(...statsArray);
+    }
+
+    for (const stats of championStatsValues) {
+      if (stats[stat] === highestStats * stats["numberOfGames"]) {
+        for (const championName of Object.keys(championStats)) {
+          if (championStats[championName] === stats) {
+            // Only take the first champion with the highest stats, ignore subsequent ones with equivalent stats
+            if (championHighestStats === "") {
+              championHighestStats = championName;
+            }
+          }
+        }
+      }
+    }
+
+    return [championHighestStats, highestStats];
+  }
+
   // ======
   // Return
   // ======
@@ -309,6 +431,7 @@ function App() {
           totalStats,
           progressionStats,
           totalUpPlayerData,
+          highlightsStats,
         }}
       >
         <Suspense

@@ -18,17 +18,17 @@ const GameData = (props) => {
         )
       </p>
       <p>
-        Average Damage Share of Team:{" "}
+        Damage Share of Team:{" "}
         {Math.round((props.stats.damageShare / props.numberOfGames) * 10000) /
           100}
         %
       </p>
       <p>
-        Average Gold per minute :{" "}
+        Gold per minute :{" "}
         {Math.round((props.stats.goldPerMin / props.numberOfGames) * 100) / 100}
       </p>
       <p>
-        Average Deaths per 10 minutes :{" "}
+        Deaths per 10 minutes :{" "}
         {Math.round((props.stats.deathsPer10Min / props.numberOfGames) * 100) /
           100}
       </p>

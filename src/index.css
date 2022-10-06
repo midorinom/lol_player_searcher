@@ -122,6 +122,19 @@ body {
   padding: 1em;
 }
 
+.allGamesStats-left {
+  height: 100%;
+  width: 55%;
+  flex-direction: column;
+}
+
+.allGamesStats-right {
+  height: 100%;
+  width: 45%;
+  align-items: center;
+  flex-direction: column;
+}
+
 .main-progressionStats {
   height: 44%;
   width: 98%;
@@ -196,4 +209,22 @@ body {
 .matchHistoryCardChampion {
   height: 80%;
   width: 10%;
+}
+
+.highlights-main {
+  height: 95%;
+  width: 100%;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.highlightsCard {
+  height: 19%;
+  width: 100%;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.highlightsChampion {
+  max-height: 100%;
 }
