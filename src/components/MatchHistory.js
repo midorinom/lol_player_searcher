@@ -90,7 +90,12 @@ const MatchHistory = () => {
       searchContext.totalUpPlayerData(element, playerStats, true);
 
       return (
-        <MatchHistoryCard stats={playerStats} numberOfGames={1} key={index} />
+        <MatchHistoryCard
+          stats={playerStats}
+          numberOfGames={1}
+          allPlayersStats={element.info.participants}
+          key={index}
+        />
       );
     });
 
