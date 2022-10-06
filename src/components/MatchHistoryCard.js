@@ -29,6 +29,7 @@ const MatchHistoryCard = (props) => {
           allPlayersStats={props.allPlayersStats}
           numberOfGames={props.numberOfGames}
           onClick={handleClick}
+          setViewMoreClicked={setViewMoreClicked}
         />
       )}
     </>

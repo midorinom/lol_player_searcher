@@ -135,6 +135,20 @@ body {
   flex-direction: column;
 }
 
+.highlights-main {
+  height: 95%;
+  width: 100%;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.highlightsCard {
+  height: 19%;
+  width: 100%;
+  justify-content: space-around;
+  align-items: center;
+}
+
 .main-progressionStats {
   height: 44%;
   width: 98%;
@@ -180,6 +194,14 @@ body {
   font-size: 1.7vmin;
 }
 
+.highlightsChampion {
+  max-height: 100%;
+}
+
+.matchHistory {
+  flex-direction: column;
+}
+
 .matchHistoryHeader {
   height: 5%;
   justify-content: space-between;
@@ -197,7 +219,7 @@ body {
   justify-content: space-around;
 }
 
-.matchHistoryCard {
+.matchHistoryCard1Player {
   font-size: 0.8vmin;
   border: 1px solid black;
   border-radius: 1em;
@@ -206,25 +228,38 @@ body {
   align-items: center;
 }
 
+.matchHistoryCard10Players {
+  font-size: 0.8vmin;
+  border: 1px solid black;
+  border-radius: 1em;
+  padding: 1em;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.matchHistoryCard10Players-left {
+  flex-direction: column;
+}
+
+.matchHistoryCard10Players-right {
+  flex-direction: column;
+}
+
 .matchHistoryCardChampion {
   height: 80%;
   width: 10%;
 }
 
-.highlights-main {
-  height: 95%;
-  width: 100%;
-  flex-direction: column;
-  justify-content: space-around;
+.tenPlayersChampion {
+  height: 80%;
+  width: 10%;
 }
 
-.highlightsCard {
-  height: 19%;
-  width: 100%;
+.tenPlayersCard {
   justify-content: space-around;
   align-items: center;
 }
 
-.highlightsChampion {
-  max-height: 100%;
+.tenPlayersCardName {
+  border: 1px solid black;
 }

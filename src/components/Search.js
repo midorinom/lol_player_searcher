@@ -20,6 +20,7 @@ const Search = () => {
     const queueId2 = gameModeSelectRef.current.value;
 
     searchContext.setQueueId(queueId2);
+    searchContext.setPlatformRouting(platformRouting);
     searchContext.fetchSummonerData(summonerName, platformRouting, queueId2);
 
     navigate(`/search/${platformRouting}/${summonerName}`);

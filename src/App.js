@@ -14,6 +14,7 @@ function App() {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [summonerData, setSummonerData] = useState("");
+  const [platformRouting, setPlatformRouting] = useState("");
   const [regionalRouting, setRegionalRouting] = useState("");
   const [queueId, setQueueId] = useState("");
   const [allMatchIds, setAllMatchIds] = useState("");
@@ -426,7 +427,10 @@ function App() {
           summonerData,
           fetchSummonerData,
           isLoading,
+          queueId,
           setQueueId,
+          platformRouting,
+          setPlatformRouting,
           allIndividualGames,
           totalStats,
           progressionStats,

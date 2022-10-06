@@ -2,7 +2,7 @@ import React from "react";
 
 const MatchHistoryCard1Player = (props) => {
   return (
-    <div className="flexbox matchHistoryCard">
+    <div className="flexbox matchHistoryCard1Player">
       <img
         className="matchHistoryCardChampion"
         src={`http://ddragon.leagueoflegends.com/cdn/12.19.1/img/champion/${props.stats.championName}.png`}

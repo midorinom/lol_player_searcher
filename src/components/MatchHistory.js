@@ -121,7 +121,7 @@ const MatchHistory = () => {
 
   return (
     <div className="flexbox main-matchHistory">
-      <div className="matchHistory">
+      <div className="flexbox matchHistory">
         <header className="flexbox matchHistoryHeader">
           <h3 className="statsHeader">Match History</h3>
           <div className="flexbox matchHistoryHeaderRight">
