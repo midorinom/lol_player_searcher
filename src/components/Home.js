@@ -18,6 +18,13 @@ const Home = () => {
         <h1>Input a Summoner Name:</h1>
         <Search className="homeSearch" />
       </div>
+      <div className="filler"></div>
+      <a
+        href="https://github.com/midorinom/lol_player_searcher"
+        target="_blank"
+      >
+        <button id="githubButton">Github Repo</button>
+      </a>
     </div>
   );
 };

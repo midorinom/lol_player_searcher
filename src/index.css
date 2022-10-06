@@ -37,13 +37,27 @@ button {
   height: 40%;
 }
 
+#githubButton {
+  position: absolute;
+  bottom: 2%;
+  right: 1%;
+  height: 10%;
+  width: 10%;
+  background-color: aquamarine;
+  font-size: 2vmin;
+}
+
 .homeSearch {
-  width: 40%;
+  width: 110%;
 }
 
 .homeSearch form {
   display: flex;
   justify-content: space-around;
+}
+
+.filler {
+  height: 30%;
 }
 
 .mainSearch {
