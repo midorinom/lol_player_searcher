@@ -8,43 +8,50 @@ const MatchHistoryCard1Player = (props) => {
         src={`http://ddragon.leagueoflegends.com/cdn/12.19.1/img/champion/${props.stats.championName}.png`}
         alt={props.stats.championName}
       />
-      <div className="flexbox matchHistoryCardItems">
+      <div className="flexbox items-and-trinket">
+        <div className="flexbox items">
+          <div className="flexbox itemsTopRow">
+            <img
+              className="matchHistoryCardItem"
+              src={`http://ddragon.leagueoflegends.com/cdn/12.19.1/img/item/${props.stats.items.item0}.png`}
+              alt={props.stats.items.item0}
+            />
+            <img
+              className="matchHistoryCardItem"
+              src={`http://ddragon.leagueoflegends.com/cdn/12.19.1/img/item/${props.stats.items.item1}.png`}
+              alt={props.stats.items.item1}
+            />
+            <img
+              className="matchHistoryCardItem"
+              src={`http://ddragon.leagueoflegends.com/cdn/12.19.1/img/item/${props.stats.items.item2}.png`}
+              alt={props.stats.items.item2}
+            />
+          </div>
+          <div className="flexbox itemsBottomRow">
+            <img
+              className="matchHistoryCardItem"
+              src={`http://ddragon.leagueoflegends.com/cdn/12.19.1/img/item/${props.stats.items.item3}.png`}
+              alt={props.stats.items.item3}
+            />
+            <img
+              className="matchHistoryCardItem"
+              src={`http://ddragon.leagueoflegends.com/cdn/12.19.1/img/item/${props.stats.items.item4}.png`}
+              alt={props.stats.items.item4}
+            />
+            <img
+              className="matchHistoryCardItem"
+              src={`http://ddragon.leagueoflegends.com/cdn/12.19.1/img/item/${props.stats.items.item5}.png`}
+              alt={props.stats.items.item5}
+            />
+          </div>
+        </div>
         <img
-          className="matchHistoryCardItem"
-          src={`http://ddragon.leagueoflegends.com/cdn/12.19.1/img/item/${props.stats.items.item0}.png`}
-          alt={props.stats.items.item0}
-        />
-        <img
-          className="matchHistoryCardItem"
-          src={`http://ddragon.leagueoflegends.com/cdn/12.19.1/img/item/${props.stats.items.item1}.png`}
-          alt={props.stats.items.item1}
-        />
-        <img
-          className="matchHistoryCardItem"
-          src={`http://ddragon.leagueoflegends.com/cdn/12.19.1/img/item/${props.stats.items.item2}.png`}
-          alt={props.stats.items.item2}
-        />
-        <img
-          className="matchHistoryCardItem"
-          src={`http://ddragon.leagueoflegends.com/cdn/12.19.1/img/item/${props.stats.items.item3}.png`}
-          alt={props.stats.items.item3}
-        />
-        <img
-          className="matchHistoryCardItem"
-          src={`http://ddragon.leagueoflegends.com/cdn/12.19.1/img/item/${props.stats.items.item4}.png`}
-          alt={props.stats.items.item4}
-        />
-        <img
-          className="matchHistoryCardItem"
-          src={`http://ddragon.leagueoflegends.com/cdn/12.19.1/img/item/${props.stats.items.item5}.png`}
-          alt={props.stats.items.item5}
-        />
-        <img
-          className="matchHistoryCardItem"
+          className="matchHistoryCardItem trinket"
           src={`http://ddragon.leagueoflegends.com/cdn/12.19.1/img/item/${props.stats.items.item6}.png`}
           alt={props.stats.items.item6}
         />
       </div>
+
       <div className="matchHistoryCardStats">
         <p>{props.stats.wins === 1 ? "Victory" : "Defeat"}</p>
         <p>

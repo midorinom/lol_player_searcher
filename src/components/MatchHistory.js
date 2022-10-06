@@ -122,7 +122,7 @@ const MatchHistory = () => {
   return (
     <div className="flexbox main-matchHistory">
       <div className="flexbox matchHistory">
-        <header className="flexbox matchHistoryHeader">
+        <div className="flexbox matchHistoryHeader">
           <h3 className="statsHeader">Match History</h3>
           <div className="flexbox matchHistoryHeaderRight">
             <button value="Previous" onClick={handleClick}>
@@ -141,7 +141,7 @@ const MatchHistory = () => {
               </select>
             </form>
           </div>
-        </header>
+        </div>
         <main className="flexbox matchHistoryCards">{matchHistoryCards}</main>
       </div>
     </div>

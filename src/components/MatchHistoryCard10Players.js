@@ -10,20 +10,22 @@ const MatchHistoryCard10Players = (props) => {
     const blueTeam = props.allPlayersStats.slice(0, 5);
     const redTeam = props.allPlayersStats.slice(5);
 
-    const blueTeamCards2 = blueTeam.map((element) => {
+    const blueTeamCards2 = blueTeam.map((element, index) => {
       return (
         <TenPlayersCard
           stats={element}
           setViewMoreClicked={props.setViewMoreClicked}
+          key={index}
         />
       );
     });
 
-    const redTeamCards2 = redTeam.map((element) => {
+    const redTeamCards2 = redTeam.map((element, index) => {
       return (
         <TenPlayersCard
           stats={element}
           setViewMoreClicked={props.setViewMoreClicked}
+          key={index}
         />
       );
     });

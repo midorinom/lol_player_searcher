@@ -28,7 +28,7 @@ const Search = () => {
   }
 
   return (
-    <>
+    <div className="form-container">
       <form onSubmit={handleSubmit}>
         <select name="region-selector" ref={regionSelectRef}>
           <option value="euw1">Europe West</option>
@@ -50,7 +50,7 @@ const Search = () => {
         <input ref={inputRef} />
         <button type="submit">Search</button>
       </form>
-    </>
+    </div>
   );
 };
 

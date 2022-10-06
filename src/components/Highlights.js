@@ -23,6 +23,7 @@ const Highlights = () => {
       <HighlightsCard
         highlightsStats={searchContext.highlightsStats}
         stat="highestDamageshare"
+        percentSign="%"
       >
         Highest Damage Share
       </HighlightsCard>

@@ -32,6 +32,15 @@ body {
   display: flex;
 }
 
+.form-container {
+  width: 80%;
+}
+
+.form-container form {
+  display: flex;
+  justify-content: space-around;
+}
+
 .home {
   height: 100%;
   width: 100%;
@@ -120,6 +129,7 @@ body {
   border: 1px solid black;
   border-radius: 1em;
   padding: 1em;
+  font-size: 2vmin;
 }
 
 .allGamesStats-left {
@@ -145,7 +155,7 @@ body {
 .highlightsCard {
   height: 19%;
   width: 100%;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -159,26 +169,14 @@ body {
 }
 
 .main-search {
-  height: 15%;
-  width: 90%;
-  justify-content: center;
-  align-items: center;
-}
-
-.main-matchHistory {
-  height: 85%;
+  height: 10%;
   width: 100%;
   justify-content: center;
   align-items: center;
 }
 
-.matchHistory {
-  height: 99%;
-  width: 98%;
-  border: 1px solid black;
-  border-radius: 1em;
-  padding: 1em;
-  padding-top: 0.5em;
+.searchForm {
+  justify-content: space-between;
 }
 
 .statsHeader {
@@ -198,7 +196,19 @@ body {
   max-height: 100%;
 }
 
+.main-matchHistory {
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
 .matchHistory {
+  height: 100%;
+  width: 100%;
+  border: 1px solid black;
+  border-radius: 1em;
+  padding-top: 0.5em;
   flex-direction: column;
 }
 
@@ -214,12 +224,20 @@ body {
 }
 
 .matchHistoryCards {
-  height: 95%;
+  height: 90%;
   flex-direction: column;
   justify-content: space-around;
 }
 
-.matchHistoryCard1Player {
+.matchHistoryCardChampion {
+  height: 80%;
+  width: 10%;
+}
+
+.matchHistoryCard1Player,
+.matchHistoryCard10Players {
+  height: 100%;
+  width: 100%;
   font-size: 0.8vmin;
   border: 1px solid black;
   border-radius: 1em;
@@ -228,13 +246,37 @@ body {
   align-items: center;
 }
 
-.matchHistoryCard10Players {
-  font-size: 0.8vmin;
-  border: 1px solid black;
-  border-radius: 1em;
-  padding: 1em;
-  justify-content: space-around;
+.items-and-trinket {
+  height: 100%;
+  width: 20%;
   align-items: center;
+}
+
+.items {
+  height: 100%;
+  width: 80%;
+  flex-direction: column;
+}
+
+.itemsTopRow {
+  height: 50%;
+  width: 100%;
+}
+
+.itemsBottomRow {
+  height: 50%;
+  width: 100%;
+}
+
+.trinket {
+}
+
+.matchHistoryCardItem {
+}
+
+.tenPlayersChampion {
+  height: 80%;
+  width: 10%;
 }
 
 .matchHistoryCard10Players-left {
@@ -243,16 +285,6 @@ body {
 
 .matchHistoryCard10Players-right {
   flex-direction: column;
-}
-
-.matchHistoryCardChampion {
-  height: 80%;
-  width: 10%;
-}
-
-.tenPlayersChampion {
-  height: 80%;
-  width: 10%;
 }
 
 .tenPlayersCard {
