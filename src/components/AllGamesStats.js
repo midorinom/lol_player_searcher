@@ -22,7 +22,8 @@ const AllGamesStats = () => {
       </div>
       <div className="flexbox allGamesStats-right">
         <h3 className="statsHeader">Highlights</h3>
-        {searchContext.highlightsStats !== "" && <Highlights />}
+        {searchContext.highlightsStats !== "" &&
+          searchContext.isLoading === false && <Highlights />}
       </div>
     </div>
   );

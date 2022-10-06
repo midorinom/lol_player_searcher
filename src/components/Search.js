@@ -2,7 +2,7 @@ import React, { useRef, useContext } from "react";
 import SearchContext from "../context/searchContext";
 import { useNavigate } from "react-router-dom";
 
-const Search = () => {
+const Search = (props) => {
   // =================================
   // Declaring Variables and Functions
   // =================================
@@ -28,7 +28,7 @@ const Search = () => {
   }
 
   return (
-    <div className="form-container">
+    <div className={props.className}>
       <form onSubmit={handleSubmit}>
         <select name="region-selector" ref={regionSelectRef}>
           <option value="euw1">Europe West</option>

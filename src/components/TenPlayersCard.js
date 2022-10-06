@@ -32,9 +32,11 @@ const TenPlayersCard = (props) => {
       </p>
       <p>
         KDA: {props.stats.kills} / {props.stats.deaths} / {props.stats.assists}
+        <br />
+        Damage Dealt: {props.stats.totalDamageDealt}
+        <br />
+        Gold Earned: {props.stats.goldEarned}
       </p>
-      <p>Damage Dealt: {props.stats.totalDamageDealt}</p>
-      <p>Gold Earned: {props.stats.goldEarned}</p>
     </div>
   );
 };

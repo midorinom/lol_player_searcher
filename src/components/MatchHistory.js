@@ -42,10 +42,6 @@ const MatchHistory = () => {
   // useEffect runs when a new search takes place
   useEffect(() => {
     if (searchContext.totalStats !== "") {
-      console.log(
-        "allIndividualGames",
-        searchContext.allIndividualGames.current
-      );
       generatePageOptions();
       // If a new search was made while the page was left on 1, the next useEffect won't happen, so will need to generate
       // matchHistoryCards here
@@ -121,29 +117,27 @@ const MatchHistory = () => {
 
   return (
     <div className="flexbox main-matchHistory">
-      <div className="flexbox matchHistory">
-        <div className="flexbox matchHistoryHeader">
-          <h3 className="statsHeader">Match History</h3>
-          <div className="flexbox matchHistoryHeaderRight">
-            <button value="Previous" onClick={handleClick}>
-              Previous
-            </button>
-            <button value="Next" onClick={handleClick}>
-              Next
-            </button>
-            <form>
-              <select
-                name="region-selector"
-                onChange={handlePageChange}
-                value={pageNumber}
-              >
-                {pageOptions}
-              </select>
-            </form>
-          </div>
+      <div className="flexbox matchHistoryHeader">
+        <h3 className="statsHeader">Match History</h3>
+        <div className="flexbox matchHistoryHeaderRight">
+          <button value="Previous" onClick={handleClick}>
+            Previous
+          </button>
+          <button value="Next" onClick={handleClick}>
+            Next
+          </button>
+          <form>
+            <select
+              name="region-selector"
+              onChange={handlePageChange}
+              value={pageNumber}
+            >
+              {pageOptions}
+            </select>
+          </form>
         </div>
-        <main className="flexbox matchHistoryCards">{matchHistoryCards}</main>
       </div>
+      <div className="flexbox matchHistoryCards">{matchHistoryCards}</div>
     </div>
   );
 };

@@ -6,6 +6,7 @@
 
 html {
   font-family: "Oxygen", sans-serif;
+  overflow: hidden;
 }
 
 body {
@@ -32,11 +33,24 @@ body {
   display: flex;
 }
 
-.form-container {
+button {
+  height: 40%;
+}
+
+.homeSearch {
+  width: 40%;
+}
+
+.homeSearch form {
+  display: flex;
+  justify-content: space-around;
+}
+
+.mainSearch {
   width: 80%;
 }
 
-.form-container form {
+.mainSearch form {
   display: flex;
   justify-content: space-around;
 }
@@ -46,7 +60,19 @@ body {
   width: 100%;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
+}
+
+.logo {
+  height: 40%;
+  width: 50%;
+}
+
+.title-and-search {
+  color: lightgoldenrodyellow;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .main {
@@ -105,22 +131,24 @@ body {
 }
 
 .summoner-level {
-  height: 30%;
-  width: 25%;
+  height: 35%;
+  width: 35%;
   background-color: white;
   opacity: 0.5;
   text-align: center;
+  font-weight: bold;
   position: absolute;
   padding: 0.3em;
   bottom: 0%;
   z-index: 10;
-  font-size: 1.5vmin;
+  font-size: 1.8vmin;
   border: 1px solid black;
   border-radius: 50%;
 }
 
 .summoner-name {
   font-size: 5vmin;
+  color: rgb(219, 250, 210);
 }
 
 .allGamesStats {
@@ -130,6 +158,7 @@ body {
   border-radius: 1em;
   padding: 1em;
   font-size: 2vmin;
+  background-color: rgba(68, 156, 125, 0.8);
 }
 
 .allGamesStats-left {
@@ -166,6 +195,7 @@ body {
   border: 1px solid black;
   border-radius: 1em;
   padding: 0.5em;
+  background-color: rgba(104, 179, 126, 0.8);
 }
 
 .main-search {
@@ -173,10 +203,6 @@ body {
   width: 100%;
   justify-content: center;
   align-items: center;
-}
-
-.searchForm {
-  justify-content: space-between;
 }
 
 .statsHeader {
@@ -193,29 +219,25 @@ body {
 }
 
 .highlightsChampion {
-  max-height: 100%;
+  height: 100%;
 }
 
 .main-matchHistory {
-  height: 100%;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-}
-
-.matchHistory {
-  height: 100%;
+  height: 89.5%;
   width: 100%;
   border: 1px solid black;
   border-radius: 1em;
   padding-top: 0.5em;
   flex-direction: column;
+  background-color: rgba(227, 249, 215, 0.7);
 }
 
 .matchHistoryHeader {
   height: 5%;
+  width: 100%;
   justify-content: space-between;
   align-items: center;
+  padding: 1em;
 }
 
 .matchHistoryHeaderRight {
@@ -224,9 +246,10 @@ body {
 }
 
 .matchHistoryCards {
-  height: 90%;
+  height: 95%;
   flex-direction: column;
   justify-content: space-around;
+  align-items: center;
 }
 
 .matchHistoryCardChampion {
@@ -236,9 +259,7 @@ body {
 
 .matchHistoryCard1Player,
 .matchHistoryCard10Players {
-  height: 100%;
-  width: 100%;
-  font-size: 0.8vmin;
+  width: 98%;
   border: 1px solid black;
   border-radius: 1em;
   padding: 1em;
@@ -246,14 +267,27 @@ body {
   align-items: center;
 }
 
+.matchHistoryCard1Player {
+  min-width: 0;
+  min-height: 0;
+  max-height: 18%;
+  font-size: 1.3vmin;
+}
+
+.matchHistoryCard10Players {
+  font-size: 1.5vmin;
+}
+
 .items-and-trinket {
   height: 100%;
   width: 20%;
+  flex-direction: row-reverse;
+  justify-content: flex-start;
   align-items: center;
 }
 
 .items {
-  height: 100%;
+  height: 75%;
   width: 80%;
   flex-direction: column;
 }
@@ -269,31 +303,62 @@ body {
 }
 
 .trinket {
+  height: 40%;
+  width: 20%;
 }
 
 .matchHistoryCardItem {
+  height: 100%;
+}
+
+.matchHistoryCardStats {
+  width: 50%;
+  height: 100%;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+}
+
+.matchHistoryCard10Players-header {
+  justify-content: center;
+}
+
+.tenPlayersStats {
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  text-align: right;
 }
 
 .tenPlayersChampion {
   height: 80%;
-  width: 10%;
+  width: 20%;
 }
 
 .matchHistoryCard10Players-left {
+  width: 50%;
   flex-direction: column;
 }
 
 .matchHistoryCard10Players-right {
+  width: 50%;
   flex-direction: column;
 }
 
 .tenPlayersCard {
+  width: 100%;
   justify-content: space-around;
   align-items: center;
 }
 
 .tenPlayersCardName {
-  border: 1px solid black;
+  width: 30%;
+  color: darkorange;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: underline;
 }
 
 .pieChart {

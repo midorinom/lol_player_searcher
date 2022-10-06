@@ -46,14 +46,18 @@ const MatchHistoryCard1Player = (props) => {
           </div>
         </div>
         <img
-          className="matchHistoryCardItem trinket"
+          className="trinket"
           src={`http://ddragon.leagueoflegends.com/cdn/12.19.1/img/item/${props.stats.items.item6}.png`}
           alt={props.stats.items.item6}
         />
       </div>
 
-      <div className="matchHistoryCardStats">
-        <p>{props.stats.wins === 1 ? "Victory" : "Defeat"}</p>
+      <div className="flexbox matchHistoryCardStats">
+        <p
+          style={props.stats.wins === 1 ? { color: "blue" } : { color: "red" }}
+        >
+          {props.stats.wins === 1 ? "Victory" : "Defeat"}
+        </p>
         <p>
           {Math.floor(props.stats.gameDuration / 60)} :
           {props.stats.gameDuration % 60}

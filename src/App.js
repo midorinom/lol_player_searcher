@@ -104,7 +104,7 @@ function App() {
     // Change the count to 100 when the app is done
     try {
       const res = await fetch(
-        `https://${regionalRouting}.api.riotgames.com/lol/match/v5/matches/by-puuid/${summonerPuuid}/ids?api_key=${apiKey}&queue=${queueId}&start=0&count=11`
+        `https://${regionalRouting}.api.riotgames.com/lol/match/v5/matches/by-puuid/${summonerPuuid}/ids?api_key=${apiKey}&queue=${queueId}&start=0&count=32`
       );
       const data = await res.json();
 
@@ -375,7 +375,6 @@ function App() {
       lowestDeathsPer10Min: lowestDeathsPer10Min,
     };
 
-    console.log("highlightsStats", highlightsStats2);
     setHighlightsStats(highlightsStats2);
   }
 

@@ -38,17 +38,19 @@ const MatchHistoryCard10Players = (props) => {
     <div className="flexbox matchHistoryCard10Players">
       <div className="flexbox matchHistoryCard10Players-left">
         <div className="flexbox matchHistoryCard10Players-header">
-          <h3>Blue Team</h3>
-          <h3>({props.allPlayersStats[0].win ? "VICTORY" : "DEFEAT"})</h3>
+          <h3>
+            Blue Team ({props.allPlayersStats[0].win ? "VICTORY" : "DEFEAT"})
+          </h3>
         </div>
-        {blueTeamCards}
+        <div className="flexbox tenPlayersStats">{blueTeamCards}</div>
       </div>
       <div className="flexbox matchHistoryCard10Players-right">
         <div className="flexbox matchHistoryCard10Players-header">
-          <h3>Red Team</h3>
-          <h3>({props.allPlayersStats[5].win ? "VICTORY" : "DEFEAT"})</h3>
+          <h3>
+            Red Team ({props.allPlayersStats[5].win ? "VICTORY" : "DEFEAT"})
+          </h3>
         </div>
-        {redTeamCards}
+        <div className="flexbox tenPlayersStats">{redTeamCards}</div>
       </div>
       <button onClick={props.onClick}>Back</button>
     </div>

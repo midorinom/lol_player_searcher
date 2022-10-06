@@ -6,12 +6,20 @@ import BasicInfo from "./BasicInfo";
 import AllGamesStats from "./AllGamesStats";
 import ProgressionStats from "./ProgressionStats";
 import MatchHistory from "./MatchHistory";
+import background from "../background.jpg";
 
 const Main = () => {
   const searchContext = useContext(SearchContext);
 
   return (
-    <div className="flexbox main">
+    <div
+      className="flexbox main"
+      style={{
+        backgroundImage: `url(${background})`,
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
       <div className="flexbox main-left">
         <BasicInfo />
         <AllGamesStats />
@@ -19,7 +27,7 @@ const Main = () => {
       </div>
       <div className="flexbox main-right">
         <div className="flexbox main-search">
-          <Search />
+          <Search className="mainSearch" />
           {searchContext.isLoading && (
             <div className="centered">
               <LoadingSpinner />
