@@ -1,8 +1,10 @@
 import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import SearchContext from "../context/searchContext";
 
 const TenPlayersCard = (props) => {
   const searchContext = useContext(SearchContext);
+  const navigate = useNavigate();
 
   function handleClick(e) {
     if (e.target.innerText !== searchContext.summonerData.name) {
@@ -11,6 +13,9 @@ const TenPlayersCard = (props) => {
         e.target.innerText,
         searchContext.platformRouting,
         searchContext.queueId
+      );
+      navigate(
+        `/search/${searchContext.platformRouting}/${e.target.innerText}`
       );
     }
   }

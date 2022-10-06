@@ -263,3 +263,8 @@ body {
 .tenPlayersCardName {
   border: 1px solid black;
 }
+
+.pieChart {
+  max-height: 80%;
+  max-width: 50%;
+}

@@ -13,8 +13,7 @@ const AllGamesStats = () => {
     <div className="flexbox allGamesStats">
       <div className="flexbox allGamesStats-left">
         <h3 className="statsHeader">
-          Total Average Stats ({searchContext.allIndividualGames.current.length}{" "}
-          Games)
+          Total Stats ({searchContext.allIndividualGames.current.length} Games)
         </h3>
         <GameData
           numberOfGames={searchContext.allIndividualGames.current.length}

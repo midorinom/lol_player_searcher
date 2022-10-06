@@ -23,6 +23,7 @@ const Search = () => {
     searchContext.setPlatformRouting(platformRouting);
     searchContext.fetchSummonerData(summonerName, platformRouting, queueId2);
 
+    inputRef.current.value = "";
     navigate(`/search/${platformRouting}/${summonerName}`);
   }
 
