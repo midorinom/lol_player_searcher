@@ -1,5 +1,5 @@
 import React from "react";
-import GameData from "./GameData";
+import GameData from "../GameData";
 
 const ProgressionStatsCard = (props) => {
   return (

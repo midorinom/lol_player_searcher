@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import SearchContext from "../context/searchContext";
 import GameData from "./GameData";
-import Highlights from "./Highlights";
+import Highlights from "./highlights/Highlights";
 
 const AllGamesStats = () => {
   const searchContext = useContext(SearchContext);

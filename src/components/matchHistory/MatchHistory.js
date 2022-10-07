@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import SearchContext from "../context/searchContext";
+import SearchContext from "../../context/searchContext";
 import MatchHistoryCard from "./MatchHistoryCard";
 
 const MatchHistory = () => {

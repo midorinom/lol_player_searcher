@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import MatchHistoryCard1Player from "./MatchHistoryCard1Player";
 import MatchHistoryCard10Players from "./MatchHistoryCard10Players";
-import SearchContext from "../context/searchContext";
+import SearchContext from "../../context/searchContext";
 
 const MatchHistoryCard = (props) => {
   const [viewMoreClicked, setViewMoreClicked] = useState(false);

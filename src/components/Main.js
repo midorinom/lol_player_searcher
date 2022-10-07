@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import SearchContext from "../context/searchContext";
-import LoadingSpinner from "./LoadingSpinner";
+import LoadingSpinner from "./auxiliary/LoadingSpinner";
 import Search from "./Search";
 import BasicInfo from "./BasicInfo";
 import AllGamesStats from "./AllGamesStats";
-import ProgressionStats from "./ProgressionStats";
-import MatchHistory from "./MatchHistory";
+import ProgressionStats from "./progression/ProgressionStats";
+import MatchHistory from "./matchHistory/MatchHistory";
 import background from "../background.jpg";
 
 const Main = () => {

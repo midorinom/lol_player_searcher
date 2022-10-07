@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef, Suspense } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import SearchContext from "./context/searchContext";
-import ErrorModal from "./components/ErrorModal";
-import LoadingSpinner from "./components/LoadingSpinner";
+import ErrorModal from "./components/auxiliary/ErrorModal";
+import LoadingSpinner from "./components/auxiliary/LoadingSpinner";
 const Home = React.lazy(() => import("./components/Home"));
 const Main = React.lazy(() => import("./components/Main"));
 

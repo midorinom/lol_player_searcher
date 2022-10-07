@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import SearchContext from "../context/searchContext";
+import SearchContext from "../../context/searchContext";
 
 const TenPlayersCard = (props) => {
   const searchContext = useContext(SearchContext);

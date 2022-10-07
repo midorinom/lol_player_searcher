@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import SearchContext from "../context/searchContext";
+import SearchContext from "../../context/searchContext";
 import HighlightsCard from "./HighlightsCard";
 
 const Highlights = () => {
