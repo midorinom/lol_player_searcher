@@ -36,7 +36,7 @@ const GameData = (props) => {
             <Pie className="pieChart" data={data} />
           </div>
           <p>
-            K/D/A : {props.stats.kills}/{props.stats.deaths}/
+            Average K/D/A : {props.stats.kills}/{props.stats.deaths}/
             {props.stats.assists} (
             {Math.round(
               ((props.stats.kills + props.stats.assists) / props.stats.deaths) *
