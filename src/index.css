@@ -243,7 +243,7 @@ button {
   border-radius: 1em;
   padding-top: 0.5em;
   flex-direction: column;
-  background-color: rgba(227, 249, 215, 0.7);
+  background-color: rgba(227, 249, 215, 0.9);
 }
 
 .matchHistoryHeader {
