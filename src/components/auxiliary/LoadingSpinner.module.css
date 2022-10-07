@@ -7,12 +7,12 @@
 .spinner:after {
   content: " ";
   display: block;
-  width: 64px;
-  height: 64px;
-  margin: 8px;
+  width: 6vmin;
+  height: 6vmin;
+  margin: 0.5em;
   border-radius: 50%;
-  border: 6px solid red;
-  border-color: red transparent red transparent;
+  border: 6px solid rgb(219, 250, 210);
+  border-color: rgb(219, 250, 210) transparent rgb(219, 250, 210) transparent;
   animation: spinner 1.2s linear infinite;
 }
 

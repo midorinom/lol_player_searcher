@@ -101,10 +101,10 @@ function App() {
   const fetchAllMatchIds = async (summonerPuuid, regionalRouting, queueId) => {
     setIsLoading(true);
 
-    // Change the count to 100 when the app is done
+    // Currently set to 30 games, but can be adjusted to search up to 96
     try {
       const res = await fetch(
-        `https://${regionalRouting}.api.riotgames.com/lol/match/v5/matches/by-puuid/${summonerPuuid}/ids?api_key=${apiKey}&queue=${queueId}&start=0&count=32`
+        `https://${regionalRouting}.api.riotgames.com/lol/match/v5/matches/by-puuid/${summonerPuuid}/ids?api_key=${apiKey}&queue=${queueId}&start=0&count=30`
       );
       const data = await res.json();
 
