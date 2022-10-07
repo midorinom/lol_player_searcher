@@ -173,6 +173,7 @@ function App() {
 
   // Calculate Stats Function
   function calculateStats() {
+    console.log(allIndividualGames.current);
     {
       const tempTotalStats = {
         wins: 0,
