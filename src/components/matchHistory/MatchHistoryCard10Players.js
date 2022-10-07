@@ -52,7 +52,9 @@ const MatchHistoryCard10Players = (props) => {
         </div>
         <div className="flexbox tenPlayersStats">{redTeamCards}</div>
       </div>
-      <button onClick={props.onClick}>Back</button>
+      <button className="backButton" onClick={props.onClick}>
+        Back
+      </button>
     </div>
   );
 };
