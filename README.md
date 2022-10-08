@@ -4,7 +4,7 @@
 
 This project was created as part of General Assembly's Software Engineering Immersive course. It is deployed <a href ="https://sword-and-shield.vercel.app" target="_blank">here</a>.
 
-Using the Riot Games API, this app allows the user to search any League of Legends player and then it displays stats and data on the player's recent played games. The user has to select a region to search from as well as a game mode to filter by. Currently, this app only supports searching from the classic Summoner's Rift game modes (normal blind, normal draft, ranked solo/duo, ranked flex) as the stats I have chosen for the app to display are most relevant in these modes and would make less sense in other modes. 
+Using the Riot Games API, this app allows the user to search any League of Legends player and then it displays stats and data on the player's recent played games. The user has to select a region to search from as well as a game mode to filter by. Currently, this app only supports searching from the classic Summoner's Rift game modes (normal blind, normal draft, ranked solo/duo, ranked flex) as the stats I have chosen for the app to display are most relevant in these modes and would make less sense in other modes. Also, due to the API request limitations set by Riot Games, the app cannot make more than 200 requests in 2 minutes, so I decided to limit the number of matches searched at a time to a maximum of 30.
 
 Upon searching for a player, the player's summoner icon, account level and name are shown at the top left of the screen. The left side of the screen contains two main windows. 
 
@@ -59,4 +59,12 @@ The `MatchHistoryCard10Players` component takes the individual game data and spl
 
 The `MatchHistoryCard10Players` component also generates a total of 10 `TenPlayersCard` components. Each one contains the data of each individual player in its props and then displays them, alongside an `onClick` function on the player name that will invoke `fetchSummonerData` to search for the player who is clicked on. An exception is made for clicking on the currently searched player's name such that a search would not take place.
 
+# Areas for Improvement
 
+* Error modal does not appear if something goes wrong during any of the fetch function, so that could be fixed.
+* Adding a form validation for making a blank search.
+* If a player searched does not exist or if there are no games played in the mode that is searched, the search still resolves but some of the stats will be shown as NaN. Could make an error catcher for this scenario.
+* Make the fetch abort its current fetch if a new fetch is made. Currently, if the user makes multiple searches before the current search is resolved, the app could crash or the API request limit would be reached extremely quickly.
+* Currently when "View More" is clicked on a match history card, the other match history cards will be collapsed with the words overflowing out of the screen. Could instead make the words of the other match history cards truncate to "..." when a "View More" is clicked.
+* The stats in the "Highlights" section are sometimes overrepresented by a small sample size or appear climsily (e.g. if a champion is only played once and results in a win, it will be shown in the highlights as having 100% winrate, or if the player has 0 total deaths on any champion it will be shown as having a KDA of Infinity).
+* Adding more features such as the ability to filter the searched by specific champions, displaying the recent searches or being able to favourite a player's profile so as to revisit it easily again.
