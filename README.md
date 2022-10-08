@@ -2,7 +2,7 @@
 
 # Introduction
 
-This project was created as part of General Assembly's Software Engineering Immersive course. The game is deployed <a href ="https://lol-player-searcher.vercel.app" target="_blank">here</a>.
+This project was created as part of General Assembly's Software Engineering Immersive course. The app is deployed <a href ="https://lol-player-searcher.vercel.app" target="_blank">here</a>.
 
 Using the Riot Games API, this app allows the user to search any League of Legends player and then it displays stats and data on the player's recent played games. The user has to select a region to search from as well as a game mode to filter by. Currently, this app only supports searching from the classic Summoner's Rift game modes (normal blind, normal draft, ranked solo/duo, ranked flex) as the stats I have chosen for the app to display are most relevant in these modes and would make less sense in other modes. Also, due to the API request limitations set by Riot Games, the app cannot make more than 200 requests in 2 minutes, so I decided to limit the number of matches searched at a time to a maximum of 30.
 
