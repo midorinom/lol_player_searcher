@@ -45,6 +45,7 @@ button {
   width: 10%;
   background-color: aquamarine;
   font-size: 2vmin;
+  border-radius: 1em;
 }
 
 .homeSearch {
