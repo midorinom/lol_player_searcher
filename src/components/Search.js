@@ -30,7 +30,11 @@ const Search = (props) => {
   return (
     <div className={props.className}>
       <form onSubmit={handleSubmit}>
-        <select name="region-selector" ref={regionSelectRef}>
+        <select
+          className={props.inputClassName}
+          name="region-selector"
+          ref={regionSelectRef}
+        >
           <option value="euw1">Europe West</option>
           <option value="eun1">Europe Nordic + East</option>
           <option value="na1">North America</option>
@@ -41,14 +45,20 @@ const Search = (props) => {
           <option value="la2">Latin America South</option>
           <option value="oc1">Oceania</option>
         </select>
-        <select name="game-mode-selector" ref={gameModeSelectRef}>
+        <select
+          className={props.inputClassName}
+          name="game-mode-selector"
+          ref={gameModeSelectRef}
+        >
           <option value="420">Ranked Solo/Duo</option>
           <option value="440">Ranked Flex</option>
           <option value="400">Normal Draft</option>
           <option value="430">Normal Blind</option>
         </select>
         <input ref={inputRef} />
-        <button type="submit">Search</button>
+        <button className={props.inputClassName} type="submit">
+          Search
+        </button>
       </form>
     </div>
   );

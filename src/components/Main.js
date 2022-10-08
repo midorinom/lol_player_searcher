@@ -27,7 +27,7 @@ const Main = () => {
       </div>
       <div className="flexbox main-right">
         <div className="flexbox main-search">
-          <Search className="mainSearch" />
+          <Search className="mainSearch" inputClassName="mainSearchInputs" />
           {searchContext.isLoading && (
             <div className="centered">
               <LoadingSpinner />

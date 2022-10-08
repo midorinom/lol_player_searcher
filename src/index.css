@@ -52,6 +52,10 @@ button {
   width: 110%;
 }
 
+.homeSearchInputs {
+  height: 5vmin;
+}
+
 .homeSearch form {
   display: flex;
   justify-content: space-around;
@@ -63,6 +67,10 @@ button {
 
 .mainSearch {
   width: 80%;
+}
+
+.mainSearchInputs {
+  height: 3vmin;
 }
 
 .mainSearch form {

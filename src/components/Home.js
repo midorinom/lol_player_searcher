@@ -16,7 +16,7 @@ const Home = () => {
       <img src={logo} alt="logo" className="logo" />
       <div className="flexbox title-and-search">
         <h1>Enter a Summoner Name:</h1>
-        <Search className="homeSearch" />
+        <Search className="homeSearch" inputClassName="homeSearchInputs" />
       </div>
       <div className="filler"></div>
       <a
