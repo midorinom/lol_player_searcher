@@ -47,5 +47,16 @@ Upon setting `fetchDoneAllIndividualGames`, a `useEffect` with `fetchDoneAllIndi
 
 At the end of the `calculateStats` function, the `totalStats`, `highlightsStats` and `progressionStats` states will be set with the respective data. These states will then be used in their respective components to display the respective pieces of data.
 
+# MatchHistory
+
+The `MatchHistory` component uses a `pageNumber` state that is set to the current page that the user is viewing, with the default being set to 1 whenever a new search happens. The array of `allindividualGames` is spliced into a new smaller array of 5 games with the games being determined by the `pageNumber`. The array of these 5 games are then mapped out to return an array containing 5 `MatchHistoryCard` components with the props containing the data from each individual game of these 5 games.
+
+The `MatchHistoryCard` component will mount either the `MatchHistoryCard1Player` or `MatchHistoryCard10Players` component depending on whether the `viewMoreClicked` state is true or false. This state is toggled when the "View More" button is clicked. 
+
+The `MatchHistoryCard1Player` component simply takes the data from using the `totalUpPlayerData` function defined in the `App` component and then displays them in the format that I wanted. 
+
+The `MatchHistoryCard10Players` component takes the individual game data and splits the data of individual players into their respective teams and with the blue team's data being displayed on the left and the red team's data being displayed on the right. There is also a "Back" button that when clicked will toggle the `viewMoreClicked` function defined in the `MatchHistoryCard` component that will switch the view back to `MatchHistoryCard1Player` view. 
+
+The `MatchHistoryCard10Players` component also generates a total of 10 `TenPlayersCard` components. Each one contains the data of each individual player in its props and then displays them, alongside an `onClick` function on the player name that will invoke `fetchSummonerData` to search for the player who is clicked on. An exception is made for clicking on the currently searched player's name such that a search would not take place.
 
 
