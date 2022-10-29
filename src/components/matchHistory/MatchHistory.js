@@ -137,7 +137,7 @@ const MatchHistory = () => {
           </form>
         </div>
       </div>
-      <div className="flexbox matchHistoryCards">{matchHistoryCards}</div>
+      <div className="matchHistoryCards">{matchHistoryCards}</div>
     </div>
   );
 };
