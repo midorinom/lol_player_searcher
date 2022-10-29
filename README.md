@@ -45,7 +45,7 @@ Upon setting `allMatchIds`, a `useEffect` with `allMatchIds` being one of its de
 
 Upon setting `individualGameData`, a `useEffect` with `individualGameData` being one of its dependencies will run, pushing the data into the `allIndividualGames` array which is also set as a state. Thus, at the end of the for loop of `fetchAllIndividualGames`, each individual game data will be all stored inside the `allIndividualGames` state as an array. Also, at the end of the for loop, the `fetchDoneAllIndividualGames` state is set to true.
 
-Upon setting `fetchDoneAllIndividualGames`, a `useEffect` with `fetchDoneAllIndividualGames` being one of its dependencies will run, which then runs the `calculateStats` function. The `calculateStats` function is a huge function that performs various object, array manipulation and arithmetic to extract all the data that I want to display and performing the required math (averaging out, rounding to 2 decimal places, converting to percentage and etc.). 
+Upon setting `fetchDoneAllIndividualGames`, a `useEffect` with `fetchDoneAllIndividualGames` being one of its dependencies will run, which then runs the `calculateStats` function. The `calculateStats` function is a huge function that performs various object and array manipulations to extract all the required data. The function also performs various arithmetic such as averaging out, rounding to 2 decimal places, converting to percentages and more. 
 
 At the end of the `calculateStats` function, the `totalStats`, `highlightsStats` and `progressionStats` states will be set with the respective data. These states will then be used in their respective components to display the respective pieces of data.
 
