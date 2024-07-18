@@ -14,6 +14,13 @@ The right side of the screen displays the match history of the player, with the 
 
 This project was heavily inspired by existing websites with similar features such as <a href ="https://op.gg">op.gg</a> and <a href ="https://blitz.gg">blitz.gg</a>.
 
+# Pictures
+### Home Page
+<img src="/public/home page.png" alt="Home Page" title="Home Page">
+
+### Search Result
+<img src="/public/Search Result.jpg" alt="Search Result" title="Search Result">
+
 # Component Hierarchy
 
 * App
