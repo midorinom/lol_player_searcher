@@ -26,10 +26,10 @@ This project was heavily inspired by existing websites with similar features suc
 
 <a name="Pictures"></a>
 ## Pictures
-### Home Page
+#### Home Page
 <img src="/public/read/home page.png" alt="Home Page" title="Home Page">
 
-### Search Result
+#### Search Result
 <img src="/public/read/Search Result.jpg" alt="Search Result" title="Search Result">
 
 <a name="Technologies"></a>
