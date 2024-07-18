@@ -3,6 +3,7 @@
 ## Table of Contents
 * [Introduction](#Introduction)
 * [Pictures](#Pictures)
+* [Technologies Used](#Technologies)
 * [Component Hierarchy](#Hierarchy)
 * [App](#App)
 * [MatchHistory](#History)
@@ -26,10 +27,19 @@ This project was heavily inspired by existing websites with similar features suc
 <a name="Pictures"></a>
 ## Pictures
 ### Home Page
-<img src="/public/home page.png" alt="Home Page" title="Home Page">
+<img src="/public/read/home page.png" alt="Home Page" title="Home Page">
 
 ### Search Result
-<img src="/public/Search Result.jpg" alt="Search Result" title="Search Result">
+<img src="/public/read/Search Result.jpg" alt="Search Result" title="Search Result">
+
+<a name="Technologies"></a>
+## Technologies Used
+<div style="display:flex">
+<img src="/public/read/Javascript.png" alt="Javascript" title="Javascript">
+<img src="/public/read/React.png" alt="React" title="React">
+<img src="/public/read/Riot Games API.png" alt="Riot Games API" title="Riot Games API">
+<img src="/public/read/Vercel.png" alt="Vercel" title="Vercel">
+</div>
 
 <a name="Hierarchy"></a>
 ## Component Hierarchy
