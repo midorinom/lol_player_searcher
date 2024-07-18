@@ -1,6 +1,15 @@
-# lol_player_searcher
+# LoL Player Searcher
 
-# Introduction
+## Table of Contents
+* [Introduction](#Introduction)
+* [Pictures](#Pictures)
+* [Component Hierarchy](#Hierarchy)
+* [App](#App)
+* [MatchHistory](#History)
+* [Areas for Improvement](#Improvement)
+
+<a name="Introduction"></a>
+## Introduction
 
 This project was created as part of General Assembly's Software Engineering Immersive course. The app is deployed <a href ="https://lol-player-searcher.vercel.app">here</a> on Vercel.
 
@@ -14,14 +23,16 @@ The right side of the screen displays the match history of the player, with the 
 
 This project was heavily inspired by existing websites with similar features such as <a href ="https://op.gg">op.gg</a> and <a href ="https://blitz.gg">blitz.gg</a>.
 
-# Pictures
+<a name="Pictures"></a>
+## Pictures
 ### Home Page
 <img src="/public/home page.png" alt="Home Page" title="Home Page">
 
 ### Search Result
 <img src="/public/Search Result.jpg" alt="Search Result" title="Search Result">
 
-# Component Hierarchy
+<a name="Hierarchy"></a>
+## Component Hierarchy
 
 * App
   * Home
@@ -42,7 +53,8 @@ This project was heavily inspired by existing websites with similar features suc
         * MatchHistoryCard10Players
           * TenPlayersCard
 
-# App
+<a name="App"></a>
+## App
 
 The `App` contains all the fetch functions that fetch the required data from the Riot API. Whenever a search happens, the first fetch function to be called is `fetchSummonerData` which takes the inputted summonerName, chosen region and game mode and puts them into the url to perform the fetch. The data retrieved is set to a `summonerData` state which contains the name, puuid, profile icon and summoner level. This data is used to display the information in the `BasicInfo` component. 
 
@@ -56,7 +68,8 @@ Upon setting `fetchDoneAllIndividualGames`, a `useEffect` with `fetchDoneAllIndi
 
 At the end of the `calculateStats` function, the `totalStats`, `highlightsStats` and `progressionStats` states will be set with the respective data. These states will then be used in their respective components to display the respective pieces of data.
 
-# MatchHistory
+<a name="History"></a>
+## MatchHistory
 
 The `MatchHistory` component uses a `pageNumber` state that is set to the current page that the user is viewing, with the default being set to 1 whenever a new search happens. The array of `allindividualGames` is spliced into a new smaller array of 5 games with the games being determined by the `pageNumber`. The array of these 5 games are then mapped out to return an array containing 5 `MatchHistoryCard` components with the props containing the data from each individual game of these 5 games.
 
@@ -68,7 +81,8 @@ The `MatchHistoryCard10Players` component takes the individual game data and spl
 
 The `MatchHistoryCard10Players` component also generates a total of 10 `TenPlayersCard` components. Each one contains the data of each individual player in its props and then displays them, alongside an `onClick` function on the player name that will invoke `fetchSummonerData` to search for the player who is clicked on. An exception is made for clicking on the currently searched player's name such that a search would not take place.
 
-# Areas for Improvement
+<a name="Improvement"></a>
+## Areas for Improvement
 
 * Error modal does not appear if something goes wrong during any of the fetch function, so that could be fixed.
 * Adding a form validation for making a blank search.
